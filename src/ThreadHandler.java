@@ -1,27 +1,26 @@
 import javafx.application.Platform;
 import javafx.scene.chart.LineChart;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 public class ThreadHandler {
-    Thread RealTimet, SQLUpdatet,SerialPortt;
+    Thread RealTimet, SQLUpdatet, SerialPortt;
     static private Boolean ShouldMyThreadBeRuning;
 
 
-
-    public void makeThread(LineChart linechart){
-        RealTimeThread RealTimeThreadOBJ= new RealTimeThread(linechart);
+    public void makeThread(LineChart linechart) {
+        /*RealTimeThread RealTimeThreadOBJ= new RealTimeThread(linechart);
         SQLupdateThread sqlThreadOBJ= new SQLupdateThread();
         RealTimet = new Thread(RealTimeThreadOBJ);
         SQLUpdatet = new Thread(sqlThreadOBJ);
         SerialPortThread SerialPortThreadOBJ = new SerialPortThread();
-        SerialPortt = new Thread(SerialPortThreadOBJ);
+        SerialPortt = new Thread(SerialPortThreadOBJ);*/
 
+        Threads threads = new Threads(linechart);
+        SerialPortt=threads.t3;
+        RealTimet =threads.t2;
+        SQLUpdatet=threads.t1;
     }
 
-    public void threadStart(){
+    public void threadStart() {
         setShouldMyThreadBeRuning(true);
         SerialPortt.start();
         RealTimet.start();

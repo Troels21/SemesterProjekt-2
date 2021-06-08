@@ -1,26 +1,39 @@
 import jssc.SerialPortException;
 
-public class Filter {
+public class Filter implements Runnable {
     //tæller som Data Transfer Object - her overføres data til andre dele af programmet
+    void registerSensorObserver() {
+
+    }
 
     private static Filter FilterOBJ = new Filter();
 
-    private Filter(){
+    private Filter() {
     }
 
-    public static Filter getFilterOBJ(){
+    public static Filter getFilterOBJ() {
         return FilterOBJ;
     }
 
-    static int ValueA[] = new int[3950];
 
-    static int ValueB[] = new int[3950];//svarer til 5 sekunder
-    int d, h = 0;
+    public int[] getValueA() {
+        return ValueA;
+    }
+
+    public int[] getValueB() {
+        return ValueB;
+    }
+
+    int ValueA[] = new int[3950];
+    int ValueB[] = new int[3950];//svarer til 5 sekunder
+
+    int d = -100;
+    int h = 0;
     String buffer = "";
 
     public void filter3950measurements(int[] intArray) {
         String[] stringArray;
-        while (d < 3950) {
+        while (d < 3950 && d > -1) {
             String s = SerialPortClass.getSerialPortOBJ().maaling();
             if (s != null) {
                 buffer = buffer + s;
@@ -51,6 +64,14 @@ public class Filter {
         }
         d = 0;
 
+    }
+
+    @Override
+    public void run() {
+    }
+
+    public void registerObserver(SensorObserver observer) {
+        //sensorobserver er et interface - det skal implementeres af den klasse, der skal bruge Filter.
     }
 }
 

@@ -1,7 +1,8 @@
-public class SQLupdateThread extends Thread {
+public class SQLupdateThread extends Thread implements SensorObserver{
 
     @Override
     public void run() {
+        synchronized (this){
         while (ThreadHandler.getShouldMyThreadBeRuning()) {
             try {
                 wait();
@@ -16,5 +17,11 @@ public class SQLupdateThread extends Thread {
             }
             //SQL Inject FilterOBJ.ValueB
         }
+    }
+    }
+
+    @Override
+    public void notify(Filter filter) {
+
     }
 }

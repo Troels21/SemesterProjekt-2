@@ -10,25 +10,26 @@ public class Main extends Application {
     static int counter=0;
 
     public static void main(String[] args) {
-        SerialPortClass.getSerialPortOBJ().openPort();/*
+        /*SerialPortClass.getSerialPortOBJ().openPort();
         while (true){
             String maling = SerialPortClass.getSerialPortOBJ().maaling();
             if (maling !=null)
                 System.out.println(maling);
-        }*/
+        }
 
-        Filter.getFilterOBJ().filter3950measurements(Filter.ValueA);
+        Filter.getFilterOBJ().filter3950measurements(Filter.getFilterOBJ().ValueA);
 
-        for(int i=0;i<Filter.ValueA.length;i++){
-            System.out.println(Filter.ValueA[i]);
-            if(Filter.ValueA[i]==0){
+        for(int i=0;i<Filter.getFilterOBJ().getValueA().length;i++){
+            System.out.println(Filter.getFilterOBJ().getValueA()[i]);
+            if(Filter.getFilterOBJ().ValueA[i]==0){
                 counter++;
             }
         }
-        System.out.println(Filter.ValueA.length);
+        System.out.println(Filter.getFilterOBJ().getValueA().length);
+
         System.out.println(Arrays.stream(Filter.ValueA).max() +"  " + Arrays.stream(Filter.ValueA).min());
-        System.out.println(counter);
-        //launch();
+        System.out.println(counter);*/
+        launch();
     }
 
 
