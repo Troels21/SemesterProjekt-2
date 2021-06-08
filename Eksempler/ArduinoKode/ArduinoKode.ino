@@ -15,7 +15,7 @@ void setup() {
   Timer1.initialize(tSampleInMicros);
   Timer1.attachInterrupt(measureAndSend);
 
-  Serial.begin(9600);
+  Serial.begin(57600);
 }
 
 void loop() {

@@ -1,4 +1,7 @@
-public class Algorithm {
+public class Algorithm extends Filter {
+
+
+
 
     //BPM algoritme
 }

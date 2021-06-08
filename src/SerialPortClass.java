@@ -2,21 +2,22 @@ import jssc.SerialPort;
 import jssc.SerialPortException;
 
 public class SerialPortClass {
-    SerialPort sensor = new SerialPort("COM");
 
-    /*private static final SerialPort sensor = new SerialPort();
+    private SerialPort sensor = new SerialPort("COM4");
+
+    private static SerialPortClass SerialPortOBJ = new SerialPortClass();
 
     private SerialPortClass(){
     }
 
-    public static SerialPort getSensor(){
-        return sensor;
-    }*/
+    public static SerialPortClass getSerialPortOBJ(){
+        return SerialPortOBJ;
+    }
 
     public void openPort() {
         try {
             sensor.openPort();
-            sensor.setParams(115200, 8, 1, 0);
+            sensor.setParams(9600, 8, 1, 0);
             sensor.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
             sensor.purgePort(SerialPort.PURGE_TXCLEAR | SerialPort.PURGE_RXCLEAR);
         } catch (SerialPortException ex) {
@@ -33,7 +34,6 @@ public class SerialPortClass {
     }
 
     public String maaling() {
-
         try {
             if (sensor.getInputBufferBytesCount() > 0) {
                 return sensor.readString();
