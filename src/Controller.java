@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 
 public class Controller {
 
-    public LineChart RealTimeLineChart;
+    static public LineChart RealTimeLineChart;
     public TextField RealTimeEKGCPR;
     public LineChart SavedDataLineChart;
     public TextField SavedEKGCPR;

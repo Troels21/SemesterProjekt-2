@@ -17,7 +17,7 @@ public class SerialPortClass {
     public void openPort() {
         try {
             sensor.openPort();
-            sensor.setParams(9600, 8, 1, 0);
+            sensor.setParams(57600, 8, 1, 0);
             sensor.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
             sensor.purgePort(SerialPort.PURGE_TXCLEAR | SerialPort.PURGE_RXCLEAR);
         } catch (SerialPortException ex) {

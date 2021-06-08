@@ -1,18 +1,32 @@
 public class ThreadHandler {
-    Thread RealTime, SQLUpdate,SerialPort;
+    Thread RealTimet, SQLUpdatet,SerialPortt;
+
+    SerialPortThread SerialPortThreadOBJ = new SerialPortThread(SQLUpdatet);
+    RealTimeThread RealTimeThreadOBJ= new RealTimeThread();
+    SQLupdateThread sqlThreadOBJ= new SQLupdateThread();
 
     static Boolean ShouldMyThreadBeRuning = true;
-    //sørgere for at linechart tråd er slukket, Overfør til SQL, SerialPort Tråd,
+
+    public void makeThread(){
+        SerialPortt = new Thread(SerialPortThreadOBJ);
+        RealTimet = new Thread(RealTimeThreadOBJ);
+        SQLUpdatet = new Thread(sqlThreadOBJ);
+    }
 
     public void threadStart(){
-        SerialPortThread SerialPortThreadOBJ = new SerialPortThread(SQLUpdate);
-        RealTimeThread RealTimeThreadOBJ= new RealTimeThread();
-        SQLupdateThread sqlThreadOBJ= new SQLupdateThread();
-
-        RealTime = new Thread()
+        SerialPortt.start();
+        RealTimet.start();
+        SQLUpdatet.start();
     }
 
     public void threadJoin(){
+        try {
+            SerialPortt.join();
+            RealTimet.join();
+            SQLUpdatet.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
