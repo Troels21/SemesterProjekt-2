@@ -2,7 +2,7 @@ public class SQLupdateThread extends Thread {
 
     @Override
     public void run() {
-        while (ThreadHandler.ShouldMyThreadBeRuning) {
+        while (ThreadHandler.getShouldMyThreadBeRuning()) {
             try {
                 wait();
             } catch (InterruptedException e) {

@@ -3,7 +3,10 @@ import jssc.SerialPortException;
 
 public class SerialPortClass {
 
-    private SerialPort sensor = new SerialPort("COM4");
+    //bruges som datagenerator - henter værdier fra porte og overføres til DTO/Filter klassen
+    public static String COMPORT="COM4";
+
+    private SerialPort sensor = new SerialPort(COMPORT);
 
     private static SerialPortClass SerialPortOBJ = new SerialPortClass();
 

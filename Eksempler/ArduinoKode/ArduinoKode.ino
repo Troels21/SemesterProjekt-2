@@ -25,9 +25,10 @@ int getEKGADC() {
   digitalWrite(10,LOW);
   value =SPI.transfer16(0x00);
   digitalWrite(10,HIGH);
-  return (value+100);
+  return (value);
   }
 
 void measureAndSend(){
-Serial.println(getEKGADC());
+Serial.print(getEKGADC());
+Serial.print("A");
   }

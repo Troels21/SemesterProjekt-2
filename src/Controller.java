@@ -1,26 +1,29 @@
-import javafx.event.ActionEvent;
-import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class Controller {
+public class Controller extends ThreadHandler {
 
-    static public LineChart RealTimeLineChart;
+    @FXML
+    public LineChart RealTimeLineChart;
     public TextField RealTimeEKGCPR;
     public LineChart SavedDataLineChart;
     public TextField SavedEKGCPR;
     public Label BPMid;
 
-    public void tabChanged() {
-        System.out.println("Change Scene");
 
+
+    public void tabChanged() {
+        ThreadHandler.setShouldMyThreadBeRuning(false);
     }
 
     public void startRealTimeEKG() {
+        makeThread(RealTimeLineChart);
+        threadStart();
     }
-
     public void stopRealTimeEKG() {
+        ThreadHandler.setShouldMyThreadBeRuning(false);
     }
 
     public void findData() {

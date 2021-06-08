@@ -1,7 +1,20 @@
 import jssc.SerialPortException;
 
 public class Filter {
-    static int ValueA[], ValueB[] = new int[3950];//svarer til 5 sekunder
+    //tæller som Data Transfer Object - her overføres data til andre dele af programmet
+
+    private static Filter FilterOBJ = new Filter();
+
+    private Filter(){
+    }
+
+    public static Filter getFilterOBJ(){
+        return FilterOBJ;
+    }
+
+    static int ValueA[] = new int[3950];
+
+    static int ValueB[] = new int[3950];//svarer til 5 sekunder
     int d, h = 0;
     String buffer = "";
 
@@ -20,6 +33,7 @@ public class Filter {
                         } else {
                             buffer = "";
                         }
+
                         while (h < stringArray.length - 1 && stringArray.length > 1) {
                             if (stringArray[h] != null) {
                                 if ((d + h) >= 3950) {
@@ -36,6 +50,7 @@ public class Filter {
             }
         }
         d = 0;
+
     }
 }
 

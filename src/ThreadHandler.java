@@ -1,25 +1,34 @@
+import javafx.application.Platform;
+import javafx.scene.chart.LineChart;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 public class ThreadHandler {
     Thread RealTimet, SQLUpdatet,SerialPortt;
+    static private Boolean ShouldMyThreadBeRuning;
 
-    SerialPortThread SerialPortThreadOBJ = new SerialPortThread(SQLUpdatet);
-    RealTimeThread RealTimeThreadOBJ= new RealTimeThread();
-    SQLupdateThread sqlThreadOBJ= new SQLupdateThread();
 
-    static Boolean ShouldMyThreadBeRuning = true;
 
-    public void makeThread(){
-        SerialPortt = new Thread(SerialPortThreadOBJ);
+    public void makeThread(LineChart linechart){
+        RealTimeThread RealTimeThreadOBJ= new RealTimeThread(linechart);
+        SQLupdateThread sqlThreadOBJ= new SQLupdateThread();
         RealTimet = new Thread(RealTimeThreadOBJ);
         SQLUpdatet = new Thread(sqlThreadOBJ);
+        SerialPortThread SerialPortThreadOBJ = new SerialPortThread();
+        SerialPortt = new Thread(SerialPortThreadOBJ);
+
     }
 
     public void threadStart(){
+        setShouldMyThreadBeRuning(true);
         SerialPortt.start();
         RealTimet.start();
         SQLUpdatet.start();
     }
 
-    public void threadJoin(){
+    /*public void threadJoin(){
         try {
             SerialPortt.join();
             RealTimet.join();
@@ -28,13 +37,22 @@ public class ThreadHandler {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
-    public void ifThreadOpenClose(Thread thread) {
+    public void ifThreadaliveClose(Thread thread) {
         if (thread.isAlive()) {
             thread.interrupt();
         }
 
     }
+
+    public static Boolean getShouldMyThreadBeRuning() {
+        return ShouldMyThreadBeRuning;
+    }
+
+    public static void setShouldMyThreadBeRuning(Boolean shouldMyThreadBeRuning) {
+        ShouldMyThreadBeRuning = shouldMyThreadBeRuning;
+    }
+
 
 }
