@@ -43,7 +43,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -55,10 +55,10 @@
                            <children>
                               <LineChart fx:id="RealTimeLineChart" layoutX="4.0" layoutY="89.0" prefHeight="282.0" prefWidth="632.0">
                                 <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
+                                  <NumberAxis side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" />
                                 </xAxis>
                                 <yAxis>
-                                  <NumberAxis side="LEFT" />
+                                  <NumberAxis side="LEFT" upperBound="4000.0" />
                                 </yAxis>
                               </LineChart>
                               <Button layoutX="202.0" layoutY="34.0" mnemonicParsing="false" onAction="#startRealTimeEKG" text="Start" />
