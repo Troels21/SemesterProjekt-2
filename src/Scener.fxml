@@ -32,18 +32,11 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -53,7 +46,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <LineChart fx:id="RealTimeLineChart" layoutX="4.0" layoutY="89.0" prefHeight="282.0" prefWidth="632.0">
+                              <LineChart fx:id="RealTimeLineChart" layoutX="4.0" layoutY="67.0" prefHeight="304.0" prefWidth="632.0">
                                 <xAxis>
                                   <CategoryAxis side="BOTTOM" />
                                 </xAxis>
@@ -65,6 +58,8 @@
                               <Button layoutX="585.0" layoutY="34.0" mnemonicParsing="false" onAction="#stopRealTimeEKG" text="Stop" />
                               <TextField fx:id="RealTimeEKGCPR" layoutX="30.0" layoutY="34.0" promptText="CPR" />
                               <Label layoutX="282.0" layoutY="6.0" text="Real Time EKG" />
+                              <Label layoutX="460.0" layoutY="39.0" text="BPM:" />
+                              <Label fx:id="BPMid" layoutX="495.0" layoutY="39.0" text="00" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -73,7 +68,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <LineChart fx:id="SavedDataLineChart" layoutX="4.0" layoutY="89.0" prefHeight="282.0" prefWidth="632.0">
+                              <LineChart fx:id="SavedDataLineChart" layoutX="4.0" layoutY="66.0" prefHeight="305.0" prefWidth="632.0">
                                 <xAxis>
                                   <CategoryAxis side="BOTTOM" />
                                 </xAxis>
