@@ -1,5 +1,3 @@
-import jssc.SerialPortException;
-
 public class Filter implements Runnable {
     //tæller som Data Transfer Object - her overføres data til andre dele af programmet
     void registerSensorObserver() {
@@ -24,10 +22,18 @@ public class Filter implements Runnable {
         return ValueB;
     }
 
+    public boolean getAorB() {
+        return AorB;
+    }
+    public void setAorB(Boolean bollean) {
+        AorB=bollean;
+    }
+
     int ValueA[] = new int[3950];
     int ValueB[] = new int[3950];//svarer til 5 sekunder
+    Boolean AorB=true;
 
-    int d = -100;
+    int d = 0;
     int h = 0;
     String buffer = "";
 
@@ -53,6 +59,12 @@ public class Filter implements Runnable {
                                     break;
                                 }
                                 intArray[d + h] = Integer.parseInt(stringArray[h]);
+                                if (d+h==1500){
+                                    System.out.println("1500");
+                                }
+                                if (d+h==3000){
+                                    System.out.println("3000");
+                                }
                             }
                             h++;
                         }

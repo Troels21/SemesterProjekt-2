@@ -12,19 +12,23 @@ public class ThreadHandler {
         RealTimet = new Thread(RealTimeThreadOBJ);
         SQLUpdatet = new Thread(sqlThreadOBJ);
         SerialPortThread SerialPortThreadOBJ = new SerialPortThread();
-        SerialPortt = new Thread(SerialPortThreadOBJ);*/
+        SerialPortt = new Thread(SerialPortThreadOBJ);
 
         Threads threads = new Threads(linechart);
         SerialPortt=threads.t3;
-        RealTimet =threads.t2;
-        SQLUpdatet=threads.t1;
+        //RealTimet =threads.t2;
+        SQLUpdatet=threads.t1;*/
+
+        Threads threads = new Threads(linechart);
+        SerialPortt=threads.MotherloardThread;
     }
 
     public void threadStart() {
         setShouldMyThreadBeRuning(true);
-        SerialPortt.start();
+        /*SerialPortt.start();
         RealTimet.start();
-        SQLUpdatet.start();
+        SQLUpdatet.start();*/
+        SerialPortt.start();
     }
 
     /*public void threadJoin(){

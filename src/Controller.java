@@ -19,6 +19,7 @@ public class Controller extends ThreadHandler {
     }
 
     public void startRealTimeEKG() {
+        Algorithm.getAlgorithmOBJ().setupChart(RealTimeLineChart);
         makeThread(RealTimeLineChart);
         threadStart();
     }
