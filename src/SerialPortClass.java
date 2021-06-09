@@ -1,19 +1,28 @@
 import jssc.SerialPort;
 import jssc.SerialPortException;
 
-public class SerialPortClass {
+public class SerialPortClass implements Runnable {
+    void registerSensorObserver() {
 
-    //bruges som datagenerator - henter værdier fra porte og overføres til DTO/Filter klassen
-    public static String COMPORT="COM4";
+    }
+
+    public static String COMPORT = "COM4";
+    int ValueA[] = new int[3950];
+    int ValueB[] = new int[3950];//svarer til 5 sekunder
+    Boolean AorB = true;
+
+    int d = 0;
+    int h = 0;
+    String buffer = "";
 
     private SerialPort sensor = new SerialPort(COMPORT);
 
     private static SerialPortClass SerialPortOBJ = new SerialPortClass();
 
-    private SerialPortClass(){
+    private SerialPortClass() {
     }
 
-    public static SerialPortClass getSerialPortOBJ(){
+    public static SerialPortClass getSerialPortOBJ() {
         return SerialPortOBJ;
     }
 
@@ -49,5 +58,79 @@ public class SerialPortClass {
         return null;
     }
 
+    public int[] getValueA() {
+        return ValueA;
+    }
 
+    public int[] getValueB() {
+        return ValueB;
+    }
+
+    public boolean getAorB() {
+        return AorB;
+    }
+
+    public void setAorB(Boolean bollean) {
+        AorB = bollean;
+    }
+
+    public void filter3950measurements(int[] intArray) {
+        String[] stringArray;
+        while (d < 3950) {
+            String s = SerialPortClass.getSerialPortOBJ().maaling();
+            if (s != null) {
+                buffer = buffer + s;
+                int i = buffer.indexOf("A");
+                if (i > -1) {
+                    stringArray = buffer.split("A");
+                    if (stringArray != null && stringArray.length > 0) {
+                        if (buffer.charAt(buffer.length() - 1) != 65) {
+                            buffer = stringArray[stringArray.length - 1];
+                            stringArray[stringArray.length - 1] = null;
+                        } else {
+                            buffer = "";
+                        }
+
+                        while (h < stringArray.length - 1 && stringArray.length > 1) {
+                            if (stringArray[h] != null) {
+                                if ((d + h) >= 3950) {
+                                    break;
+                                }
+                                intArray[d + h] = Integer.parseInt(stringArray[h]);
+                                if (d + h == 1500) {
+                                    System.out.println("1500");
+                                }
+                                if (d + h == 3000) {
+                                    System.out.println("3000");
+                                }
+                            }
+                            h++;
+                        }
+                        d = d + h;
+                        h = 0;
+                    }
+                }
+            }
+        }
+        d = 0;
+
+    }
+
+    public void filterMeasurements() {
+        String rawdata = SerialPortClass.getSerialPortOBJ().maaling();
+        if (rawdata != null) {
+            buffer = buffer + rawdata;
+            System.out.println(buffer);
+        }
+    }
+
+    @Override
+    public void run() {
+    }
+
+    public void registerObserver(SensorObserver observer) {
+        //sensorobserver er et interface - det skal implementeres af den klasse, der skal bruge Filter.
+    }
 }
+
+

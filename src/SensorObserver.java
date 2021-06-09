@@ -1,3 +1,3 @@
 public interface SensorObserver {
-    void notify(Filter filter);
+    void notify(SerialPortClass serialportclass);
 }

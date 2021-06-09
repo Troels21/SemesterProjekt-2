@@ -20,7 +20,7 @@ public class ThreadHandler {
         SQLUpdatet=threads.t1;*/
 
         Threads threads = new Threads(linechart);
-        SerialPortt=threads.MotherloardThread;
+        SerialPortt = threads.MotherloardThread;
     }
 
     public void threadStart() {

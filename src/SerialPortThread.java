@@ -6,9 +6,9 @@ public class SerialPortThread extends Thread implements SensorObserver {
     public void run(){
         SerialPortClass.getSerialPortOBJ().openPort();
         while (ThreadHandler.getShouldMyThreadBeRuning()) {
-            Filter.getFilterOBJ().filter3950measurements(Filter.getFilterOBJ().ValueA);
+            SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().getValueA());
             //Notify
-            Filter.getFilterOBJ().filter3950measurements(Filter.getFilterOBJ().ValueB);
+            SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().getValueA());
             //notify
             //generelt - undgå at accesse -DIREKTE fra klassernes attributter og felter . brug get og set metoder
 
@@ -17,8 +17,8 @@ public class SerialPortThread extends Thread implements SensorObserver {
     }
 
     @Override
-    public void notify(Filter filter) {
-      if(filter.getValueA()!=null){
+    public void notify(SerialPortClass serialportclass) {
+      if(serialportclass.getValueA()!=null){
           System.out.println("value != null");
 
           //gør noget.
