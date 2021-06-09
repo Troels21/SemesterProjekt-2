@@ -39,7 +39,7 @@ public class Filter implements Runnable {
 
     public void filter3950measurements(int[] intArray) {
         String[] stringArray;
-        while (d < 3950 && d > -1) {
+        while (d < 3950) {
             String s = SerialPortClass.getSerialPortOBJ().maaling();
             if (s != null) {
                 buffer = buffer + s;
@@ -49,6 +49,7 @@ public class Filter implements Runnable {
                     if (stringArray != null && stringArray.length > 0) {
                         if (buffer.charAt(buffer.length() - 1) != 65) {
                             buffer = stringArray[stringArray.length - 1];
+                            stringArray[stringArray.length-1]=null;
                         } else {
                             buffer = "";
                         }
@@ -76,6 +77,14 @@ public class Filter implements Runnable {
         }
         d = 0;
 
+    }
+
+    public void filterMeasurements(){
+        String rawdata = SerialPortClass.getSerialPortOBJ().maaling();
+        if (rawdata!=null){
+            buffer = buffer+rawdata;
+            System.out.println(buffer);
+        }
     }
 
     @Override

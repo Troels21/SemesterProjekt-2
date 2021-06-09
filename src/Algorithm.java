@@ -25,8 +25,9 @@ public class Algorithm {
     }
 
     public void populateChart(int array[]) {
+        EKGSerie.getData().clear();
         for (int i = 0; i < (array.length - 1); i++) {
-            EKGSerie.getData().add(new XYChart.Data(getTimer(), array[i]));
+            EKGSerie.getData().add(new XYChart.Data(i, array[i]));
             setTimer((getTimer() + 1));
         }
     }
