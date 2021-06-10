@@ -1,11 +1,7 @@
 import jssc.SerialPort;
 import jssc.SerialPortException;
 
-public class SerialPortClass implements Runnable {
-    void registerSensorObserver() {
-
-    }
-
+public class SerialPortClass {
     public static String COMPORT = "COM5";
     int ValueA[] = new int[3950];
     int ValueB[] = new int[3950];//svarer til 5 sekunder
@@ -122,14 +118,6 @@ public class SerialPortClass implements Runnable {
             buffer = buffer + rawdata;
             System.out.println(buffer);
         }
-    }
-
-    @Override
-    public void run() {
-    }
-
-    public void registerObserver(SensorObserver observer) {
-        //sensorobserver er et interface - det skal implementeres af den klasse, der skal bruge Filter.
     }
 }
 

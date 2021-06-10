@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Label;
@@ -8,10 +9,8 @@ public class Controller extends ThreadHandler {
 
     @FXML
     public LineChart RealTimeLineChart;
-    public TextField RealTimeEKGCPR;
     public LineChart SavedDataLineChart;
-    public TextField SavedEKGCPR;
-    public Label BPMid;
+    public Label BPMID;
 
 
 
@@ -20,8 +19,10 @@ public class Controller extends ThreadHandler {
     }
 
     public void startRealTimeEKG() {
-        makeThread(RealTimeLineChart);
+        Algorithm.getAlgorithmOBJ().setupChart(RealTimeLineChart);
+        makeThread();
         threadStart();
+
     }
     public void stopRealTimeEKG() {
         ThreadHandler.setShouldMyThreadBeRuning(false);

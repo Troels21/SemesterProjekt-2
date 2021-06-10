@@ -15,7 +15,7 @@ public class Main extends Application {
                 System.out.println(maling);
             }
 
-            Filter.getFilterOBJ().filter3950measurements(Filter.getFilterOBJ().ValueA);
+            Filter.getFilterOBJ().filter3950measurements(.ValueA);
 
             for (int i = 0; i < 1000; i++) {
                 System.out.println(Filter.getFilterOBJ().getValueA()[i]);
