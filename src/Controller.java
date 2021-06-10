@@ -5,6 +5,7 @@ import javafx.scene.control.TextField;
 
 public class Controller extends ThreadHandler {
 
+
     @FXML
     public LineChart RealTimeLineChart;
     public TextField RealTimeEKGCPR;
@@ -19,7 +20,6 @@ public class Controller extends ThreadHandler {
     }
 
     public void startRealTimeEKG() {
-        Algorithm.getAlgorithmOBJ().setupChart(RealTimeLineChart);
         makeThread(RealTimeLineChart);
         threadStart();
     }

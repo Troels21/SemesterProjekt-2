@@ -39,7 +39,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -61,10 +60,11 @@
                                   <NumberAxis side="LEFT" upperBound="4000.0" />
                                 </yAxis>
                               </LineChart>
-                              <Button layoutX="202.0" layoutY="34.0" mnemonicParsing="false" onAction="#startRealTimeEKG" text="Start" />
+                              <Button layoutX="41.0" layoutY="34.0" mnemonicParsing="false" onAction="#startRealTimeEKG" text="Start" />
                               <Button layoutX="585.0" layoutY="34.0" mnemonicParsing="false" onAction="#stopRealTimeEKG" text="Stop" />
-                              <TextField fx:id="RealTimeEKGCPR" layoutX="30.0" layoutY="34.0" promptText="CPR" />
                               <Label layoutX="282.0" layoutY="6.0" text="Real Time EKG" />
+                              <Label layoutX="292.0" layoutY="38.0" text="BPM:" />
+                              <Label fx:id="BPMID" layoutX="329.0" layoutY="38.0" text="00" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -81,8 +81,7 @@
                                   <NumberAxis side="LEFT" />
                                 </yAxis>
                               </LineChart>
-                              <TextField fx:id="SavedEKGCPR" layoutX="30.0" layoutY="34.0" promptText="CPR" />
-                              <Button layoutX="195.0" layoutY="34.0" mnemonicParsing="false" onAction="#findData" text="Find Data" />
+                              <Button layoutX="46.0" layoutY="35.0" mnemonicParsing="false" onAction="#findData" text="Find Data" />
                               <Label layoutX="292.0" layoutY="6.0" text="Saved EGK" />
                            </children>
                         </AnchorPane>

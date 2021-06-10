@@ -3,7 +3,7 @@ import javafx.scene.chart.LineChart;
 
 public class ThreadHandler {
     Thread RealTimet, SQLUpdatet, SerialPortt;
-    static private Boolean ShouldMyThreadBeRuning;
+    volatile static private Boolean ShouldMyThreadBeRuning;
 
 
     public void makeThread(LineChart linechart) {
@@ -15,10 +15,10 @@ public class ThreadHandler {
         SerialPortt = new Thread(SerialPortThreadOBJ);
 
         Threads threads = new Threads(linechart);
-        SerialPortt=threads.t3;
-        //RealTimet =threads.t2;
-        SQLUpdatet=threads.t1;*/
-
+        SerialPortt = threads.t3;
+        RealTimet =threads.t2;
+        SQLUpdatet = threads.t1;
+        */
         Threads threads = new Threads(linechart);
         SerialPortt = threads.MotherloardThread;
     }

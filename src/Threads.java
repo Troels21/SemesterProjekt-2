@@ -1,7 +1,12 @@
 import javafx.application.Platform;
 import javafx.scene.chart.LineChart;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Threads {
+    ReentrantLock lockA = new ReentrantLock();
+    ReentrantLock lockB = new ReentrantLock();
     LineChart t;
 
     public Threads(LineChart linechart) {
@@ -12,6 +17,7 @@ public class Threads {
         @Override
         public void run() {
             SerialPortClass.getSerialPortOBJ().openPort();
+            Platform.runLater(()->Algorithm.getAlgorithmOBJ().setupChart(t));
             while (ThreadHandler.getShouldMyThreadBeRuning()) {
                 SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().ValueA);
                 System.out.println("Filter A");
@@ -24,38 +30,31 @@ public class Threads {
                 Platform.runLater(platformthread);
                 makeNewSqlThreadStart();
 
-                //generelt - undgå at accesse -DIREKTE fra klassernes attributter og felter . brug get og set metoder
-
+                //generelt - undgå at accesse -DIREKTE fra klassernes attributter og felter . brug get og set metoderz
             }
             SerialPortClass.getSerialPortOBJ().closePort();
-
         }
     });
 
-    Thread platformthread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            if (SerialPortClass.getSerialPortOBJ().getAorB()) {
-                Algorithm.getAlgorithmOBJ().populateChart(SerialPortClass.getSerialPortOBJ().getValueA());
-                System.out.println("platform A");
-            } else {
-                Algorithm.getAlgorithmOBJ().populateChart(SerialPortClass.getSerialPortOBJ().getValueB());
-                System.out.println("platform B");
-            }
+    Thread platformthread = new Thread(() -> {
+        if (SerialPortClass.getSerialPortOBJ().getAorB()) {
+            Algorithm.getAlgorithmOBJ().populateChart(SerialPortClass.getSerialPortOBJ().getValueA());
+            System.out.println("platform A");
+        } else {
+            Algorithm.getAlgorithmOBJ().populateChart(SerialPortClass.getSerialPortOBJ().getValueB());
+            System.out.println("platform B");
+
         }
     });
 
     public void makeNewSqlThreadStart() {
-        Thread sqlThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (SerialPortClass.getSerialPortOBJ().getAorB()) {
-                    System.out.println("SQl A");
-                    SQL.getSqlOBJ().writeTodatabaseArray(SerialPortClass.getSerialPortOBJ().ValueA);
-                } else {
-                    System.out.println("SQl B");
-                    SQL.getSqlOBJ().writeTodatabaseArray(SerialPortClass.getSerialPortOBJ().ValueB);
-                }
+        Thread sqlThread = new Thread(() -> {
+            if (SerialPortClass.getSerialPortOBJ().getAorB()) {
+                System.out.println("SQl A");
+                SQL.getSqlOBJ().writeTodatabaseArray(SerialPortClass.getSerialPortOBJ().ValueA);
+            } else {
+                System.out.println("SQl B");
+                SQL.getSqlOBJ().writeTodatabaseArray(SerialPortClass.getSerialPortOBJ().ValueB);
             }
         });
 
@@ -63,63 +62,49 @@ public class Threads {
     }
 
 
-    Thread t1 = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            {
-                while (ThreadHandler.getShouldMyThreadBeRuning()) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("wait virkede");
+    Thread t1 = new Thread(() -> {
+        {
+            while (ThreadHandler.getShouldMyThreadBeRuning()) {
+                if (lockB.isLocked()) {
+                    System.out.println("lockA virkede");
                     //SQL Inject FilterOBJ.ValueA
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    //SQL Inject FilterOBJ.ValueB
+                }
+                if (lockA.isLocked()) {
+                    System.out.println("lockB virkede");
+                    //SQL Inject FilterOBJ.ValueA
                 }
             }
         }
     });
 
 
-    Thread t2 = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            Algorithm.getAlgorithmOBJ().setupChart(t);
-            while (ThreadHandler.getShouldMyThreadBeRuning()) {
-                try {
-                    wait();
-                    Algorithm.getAlgorithmOBJ().populateChart(SerialPortClass.getSerialPortOBJ().getValueA());
-                    wait();
-                    Algorithm.getAlgorithmOBJ().populateChart(SerialPortClass.getSerialPortOBJ().getValueB());
-                } catch (InterruptedException g) {
-                    g.printStackTrace();
-                }
+    Thread t2 = new Thread(() -> {
+        while (ThreadHandler.getShouldMyThreadBeRuning()) {
+            if (lockB.isLocked()) {
+                System.out.println("lockA virkedet1");
+                Algorithm.getAlgorithmOBJ().populateChart(SerialPortClass.getSerialPortOBJ().getValueA());
+            }
+            if (lockA.isLocked()) {
+                System.out.println("lockB virkedet2");
+                Algorithm.getAlgorithmOBJ().populateChart(SerialPortClass.getSerialPortOBJ().getValueB());
             }
         }
     });
 
-    Thread t3 = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            SerialPortClass.getSerialPortOBJ().openPort();
-            while (ThreadHandler.getShouldMyThreadBeRuning()) {
-                SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().ValueA);
-                t1.notify();
-                t2.notify();
-                System.out.println("notify");
-                SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().ValueB);
-                t1.notify();
-                t2.notify();
-                //generelt - undgå at accesse -DIREKTE fra klassernes attributter og felter . brug get og set metoder
+    Thread t3 = new Thread(() -> {
+        SerialPortClass.getSerialPortOBJ().openPort();
+        lockA.lock();
+        lockB.lock();
+        while (ThreadHandler.getShouldMyThreadBeRuning()) {
+            SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().ValueA);
+            lockA.unlock();
+            lockB.lock();
+            SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().ValueB);
+            lockB.unlock();
+            lockA.lock();
+            //generelt - undgå at accesse -DIREKTE fra klassernes attributter og felter . brug get og set metoder
 
-            }
-            SerialPortClass.getSerialPortOBJ().closePort();
         }
+        SerialPortClass.getSerialPortOBJ().closePort();
     });
 }

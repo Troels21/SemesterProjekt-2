@@ -21,6 +21,7 @@ public class Algorithm {
     public void setupChart(LineChart linechart) {
         EKGSerie.getData().clear();
         EKGSerie.setName("ECG");
+        linechart.getData().clear();
         linechart.getData().add(EKGSerie);
     }
 

@@ -6,7 +6,7 @@ public class SerialPortClass implements Runnable {
 
     }
 
-    public static String COMPORT = "COM4";
+    public static String COMPORT = "COM5";
     int ValueA[] = new int[3950];
     int ValueB[] = new int[3950];//svarer til 5 sekunder
     Boolean AorB = true;
