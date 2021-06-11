@@ -1,15 +1,30 @@
-import javafx.application.Platform;
 import javafx.scene.chart.LineChart;
+import javafx.scene.control.Label;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 public class ThreadHandler {
-    Thread RealTimet, SQLUpdatet, SerialPortt;
+    private static ThreadHandler ThreadHandlerOBJ = new ThreadHandler();
+
+    private ThreadHandler() {
+    }
+
+    public static ThreadHandler getThreadHandlerOBJ() {
+        return ThreadHandlerOBJ;
+    }
+
+
+
+
+    LineChart lineChart;
+    Label label;
+
+    private Thread RealTimet, SQLUpdatet, SerialPortt;
     static private Boolean ShouldMyThreadBeRuning;
-    LinkedList<Integer> que = new LinkedList<Integer>();
-    Thread produce, consume;
+    private LinkedList<Integer> que = new LinkedList<Integer>();
+    private Thread produce, consume;
+
+
 
 
     public void makeThread() {
@@ -21,14 +36,12 @@ public class ThreadHandler {
         SQLUpdatet = new Thread(sqlThreadOBJ);
         SerialPortThread SerialPortThreadOBJ = new SerialPortThread();
         SerialPortt = new Thread(SerialPortThreadOBJ);*/
-/*
+        /*
         Threads threads = new Threads();
         SerialPortt = threads.t3;
         RealTimet =threads.t2;
         SQLUpdatet = threads.t1;*/
 
-        Threads threads = new Threads();
-        SerialPortt = threads.MotherloardThread;
 
         /*produce = new Thread(new ProducerThread(que));
         consume = new Thread(new ConsumerThread(que));*/
@@ -37,26 +50,28 @@ public class ThreadHandler {
     }
 
     public void threadStart() {
-        SerialPortt.start();
+        getSerialPortt().start();
        /* consume.setPriority(Thread.MAX_PRIORITY);
         produce.setPriority(Thread.NORM_PRIORITY);
         produce.start();
         consume.start();*/
     }
-
+/*
     public void threadJoin(){
         try {
-            produce.join();
-            consume.join();
+            getProduce().join();
+            getConsume().join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
-    public void ifThreadaliveClose(Thread thread) {
+    public void startthreadifclose(Thread thread) {
         if (thread.isAlive()) {
-            thread.interrupt();
+        }
+        else {
+            thread.start();
         }
     }
 
@@ -67,4 +82,54 @@ public class ThreadHandler {
     public static void setShouldMyThreadBeRuning(Boolean shouldMyThreadBeRuning) {
         ShouldMyThreadBeRuning = shouldMyThreadBeRuning;
     }
+
+
+    public Thread getRealTimet() {
+        return RealTimet;
+    }
+
+    public void setRealTimet(Thread realTimet) {
+        RealTimet = realTimet;
+    }
+
+    public Thread getSQLUpdatet() {
+        return SQLUpdatet;
+    }
+
+    public void setSQLUpdatet(Thread SQLUpdatet) {
+        this.SQLUpdatet = SQLUpdatet;
+    }
+
+    public Thread getSerialPortt() {
+        return SerialPortt;
+    }
+
+    public void setSerialPortt(Thread serialPortt) {
+        SerialPortt = serialPortt;
+    }
+
+    public LinkedList<Integer> getQue() {
+        return que;
+    }
+
+    public void setQue(LinkedList<Integer> que) {
+        this.que = que;
+    }
+
+    public Thread getProduce() {
+        return produce;
+    }
+
+    public void setProduce(Thread produce) {
+        this.produce = produce;
+    }
+
+    public Thread getConsume() {
+        return consume;
+    }
+
+    public void setConsume(Thread consume) {
+        this.consume = consume;
+    }
+
 }

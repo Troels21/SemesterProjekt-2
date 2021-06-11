@@ -22,11 +22,11 @@ public class ProducerThread implements Runnable {
     public void produce() {
         synchronized (que) {
 
-            SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().ValueA);
+            SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().getValueA());
             que.add(counter++);
             que.notifyAll();
             System.out.println("Notify");
-            SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().ValueB);
+            SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().getValueB());
             que.add(counter++);
             que.notifyAll();
             System.out.println("Notify");

@@ -1,11 +1,12 @@
-import com.mysql.cj.protocol.Message;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 
-import java.awt.*;
+import java.util.Arrays;
 
 public class Algorithm {
     private int timer = 0;
+    private double BPM;
 
     private static Algorithm AlgorithmOBJ = new Algorithm();
 
@@ -16,13 +17,13 @@ public class Algorithm {
         return AlgorithmOBJ;
     }
 
-    static XYChart.Series EKGSerie = new XYChart.Series();
+    private XYChart.Series EKGSerie = new XYChart.Series();
 
-    public void setupChart(LineChart linechart) {
+    public void setupChart(LineChart lineChart) {
         EKGSerie.getData().clear();
         EKGSerie.setName("ECG");
-        linechart.getData().clear();
-        linechart.getData().add(EKGSerie);
+        lineChart.getData().clear();
+        lineChart.getData().add(EKGSerie);
     }
 
     public void populateChart(int array[]) {
@@ -33,6 +34,21 @@ public class Algorithm {
         }
     }
 
+    public void BPMalgo(int array[], Label bpmid){
+        double counter=0;
+        int lastPulsePoint=0;
+        int seventyprocent= Arrays.stream(array).max().getAsInt();
+        for (int s=0; s<array.length-1;s++){
+            if (array[s]> seventyprocent*0.7 && (lastPulsePoint-s)<=-220){
+                counter++;
+                lastPulsePoint=s;
+            }
+        }
+        setBPM(counter/5*60);
+        bpmid.setText(String.valueOf((getBPM())));
+
+    }
+
     public int getTimer() {
         return timer;
     }
@@ -41,6 +57,12 @@ public class Algorithm {
         this.timer = timer;
     }
 
-    //BPM algoritme
 
+    public double getBPM() {
+        return BPM;
+    }
+
+    public void setBPM(double BPM) {
+        this.BPM = BPM;
+    }
 }

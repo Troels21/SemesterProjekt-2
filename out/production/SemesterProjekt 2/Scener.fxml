@@ -32,17 +32,11 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -65,6 +59,7 @@
                               <Label layoutX="282.0" layoutY="6.0" text="Real Time EKG" />
                               <Label layoutX="292.0" layoutY="38.0" text="BPM:" />
                               <Label fx:id="BPMID" layoutX="329.0" layoutY="38.0" text="00" />
+                              <TextField fx:id="CPRid1" layoutX="93.0" layoutY="34.0" onAction="#onEnter1" promptText="CPR" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -81,8 +76,9 @@
                                   <NumberAxis side="LEFT" />
                                 </yAxis>
                               </LineChart>
-                              <Button layoutX="46.0" layoutY="35.0" mnemonicParsing="false" onAction="#findData" text="Find Data" />
+                              <Button layoutX="36.0" layoutY="34.0" mnemonicParsing="false" onAction="#findData" text="Find Data" />
                               <Label layoutX="292.0" layoutY="6.0" text="Saved EGK" />
+                              <TextField fx:id="CPRid2" layoutX="116.0" layoutY="34.0" onAction="#onEnter2" promptText="CPR" />
                            </children>
                         </AnchorPane>
                   </content>

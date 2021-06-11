@@ -7,20 +7,6 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     public static void main(String[] args) {
-        /*
-        SerialPortClass.getSerialPortOBJ().openPort();
-        while (true) {
-            String maling = SerialPortClass.getSerialPortOBJ().maaling();
-            if (maling != null) {
-                System.out.println(maling);
-            }
-
-            Filter.getFilterOBJ().filter3950measurements(.ValueA);
-
-            for (int i = 0; i < 1000; i++) {
-                System.out.println(Filter.getFilterOBJ().getValueA()[i]);
-            }
-        }*/
         launch();
     }
 
