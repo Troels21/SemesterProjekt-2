@@ -1,5 +1,4 @@
 import java.util.LinkedList;
-import java.util.List;
 
 public class ProducerThread implements Runnable {
     int counter = 0;
@@ -22,11 +21,11 @@ public class ProducerThread implements Runnable {
     public void produce() {
         synchronized (que) {
 
-            SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().getValueA());
+            SerialPortClass.getSerialPortOBJ().filter4000measurements(SerialPortClass.getSerialPortOBJ().getValueA());
             que.add(counter++);
             que.notifyAll();
             System.out.println("Notify");
-            SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().getValueB());
+            SerialPortClass.getSerialPortOBJ().filter4000measurements(SerialPortClass.getSerialPortOBJ().getValueB());
             que.add(counter++);
             que.notifyAll();
             System.out.println("Notify");

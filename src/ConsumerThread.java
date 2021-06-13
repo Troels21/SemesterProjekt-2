@@ -29,7 +29,7 @@ public class ConsumerThread implements Runnable {
                     e.printStackTrace();
                 }
             }
-            //SQL.getSqlOBJ().writeTodatabaseArray(SerialPortClass.getSerialPortOBJ().ValueA);
+            //SQL.getSqlOBJ().writeTodatabaseArray(SerialPortClass.getSerialPortOBJ().getValueA());
             Platform.runLater(() -> Algorithm.getAlgorithmOBJ().populateChart(SerialPortClass.getSerialPortOBJ().getValueA()));
             que.removeFirst();
             while (que.isEmpty()) {
@@ -41,7 +41,7 @@ public class ConsumerThread implements Runnable {
                 }
             }
             System.out.println("Done Waiting");
-            //SQL.getSqlOBJ().writeTodatabaseArray(SerialPortClass.getSerialPortOBJ().ValueA);
+            //SQL.getSqlOBJ().writeTodatabaseArray(SerialPortClass.getSerialPortOBJ().getValueA());
             Platform.runLater(() -> Algorithm.getAlgorithmOBJ().populateChart(SerialPortClass.getSerialPortOBJ().getValueB()));
             que.removeFirst();
         }

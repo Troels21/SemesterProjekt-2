@@ -2,7 +2,7 @@
 #include <TimerOne.h>
 
 SPISettings settings(8000000, MSBFIRST, SPI_MODE0);
-const long tSampleInMicros = 1265; 
+const long tSampleInMicros = 1250; 
 int value;
 
 void setup() {
@@ -32,3 +32,11 @@ void measureAndSend(){
 Serial.print(getEKGADC());
 Serial.print("A");
   }
+
+void serialportbuffertest(){
+value++;
+if(value ==4000){
+  value=0;}
+Serial.print(value);
+Serial.print("A");
+ }

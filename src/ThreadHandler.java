@@ -43,18 +43,18 @@ public class ThreadHandler {
         SQLUpdatet = threads.t1;*/
 
 
-        /*produce = new Thread(new ProducerThread(que));
-        consume = new Thread(new ConsumerThread(que));*/
+        produce = new Thread(new ProducerThread(que));
+        consume = new Thread(new ConsumerThread(que));
 
 
     }
 
     public void threadStart() {
-        getSerialPortt().start();
-       /* consume.setPriority(Thread.MAX_PRIORITY);
-        produce.setPriority(Thread.NORM_PRIORITY);
+        //getSerialPortt().start();
+        //consume.setPriority(Thread.MAX_PRIORITY);
+        //produce.setPriority(Thread.NORM_PRIORITY);
         produce.start();
-        consume.start();*/
+        consume.start();
     }
 /*
     public void threadJoin(){

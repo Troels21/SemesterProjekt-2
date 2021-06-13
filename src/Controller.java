@@ -1,38 +1,38 @@
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class Controller extends Threads{
+public class Controller extends Threads {
 
     @FXML
-    public LineChart RealTimeLineChart;
-    public LineChart SavedDataLineChart;
-    public Label BPMID;
-    public TextField CPRid2;
-    public TextField CPRid1;
-    int hello;
+    private LineChart RealTimeLineChart;
+    @FXML
+    private LineChart SavedDataLineChart;
+    @FXML
+    private Label BPMID;
+    @FXML
+    private TextField CPRid2;
+    @FXML
+    private TextField CPRid1;
 
 
     public void tabChanged() {
         ThreadHandler.setShouldMyThreadBeRuning(false);
+        setCPRid1(Algorithm.getAlgorithmOBJ().getCPR());
+        setCPRid2(Algorithm.getAlgorithmOBJ().getCPR());
     }
 
     public void startRealTimeEKG() {
-        if(CPRid1.getText() != "" && CPRid1.getLength()==10){
-            try{
-                hello= Integer.parseInt(CPRid1.getText());
-                setLabel(getBPMID());
-                setLineChart(getRealTimeLineChart());
-                ThreadHandler.setShouldMyThreadBeRuning(true);
-                ThreadHandler.getThreadHandlerOBJ().startthreadifclose(getMotherloardThread());
-            } catch (NumberFormatException e) {
-                System.out.println("Skriv kun tal");
-            }
-            System.out.println("Skriv et CPR");
+        if (Algorithm.getAlgorithmOBJ().checkCPR(Algorithm.getAlgorithmOBJ().getCPR())) {
+            SQL.getSqlOBJ().makePatientMeasurement(Algorithm.getAlgorithmOBJ().getCPR());
+            setLabel(getBPMID());
+            setLineChart(getRealTimeLineChart());
+            ThreadHandler.setShouldMyThreadBeRuning(true);
+            ThreadHandler.getThreadHandlerOBJ().startthreadifclose(getMotherloardThread());
+        } else {
+            Algorithm.getAlgorithmOBJ().textBox("Syntax Error in :CPR:");
         }
-
     }
 
     public void stopRealTimeEKG() {
@@ -43,27 +43,29 @@ public class Controller extends Threads{
     }
 
     public void onEnter1() {
-        System.out.println("hello");
+        Algorithm.getAlgorithmOBJ().setCPR(getCPRid1().getText());
+        Algorithm.getAlgorithmOBJ().textBox("CPR saved");
     }
 
     public void onEnter2() {
-        System.out.println("hello");
+        Algorithm.getAlgorithmOBJ().setCPR(getCPRid2().getText());
+        Algorithm.getAlgorithmOBJ().textBox("CPR saved");
     }
 
     public TextField getCPRid2() {
         return CPRid2;
     }
 
-    public void setCPRid2(TextField CPRid2) {
-        this.CPRid2 = CPRid2;
+    public void setCPRid2(String CPRid2) {
+        this.CPRid2.setText(CPRid2);
     }
 
     public TextField getCPRid1() {
         return CPRid1;
     }
 
-    public void setCPRid1(TextField CPRid1) {
-        this.CPRid1 = CPRid1;
+    public void setCPRid1(String CPRid1) {
+        this.CPRid1.setText(CPRid1);
     }
 
     public LineChart getRealTimeLineChart() {

@@ -1,10 +1,11 @@
+import javafx.application.Platform;
 import jssc.SerialPort;
 import jssc.SerialPortException;
 
 public class SerialPortClass {
     public static String COMPORT = "COM4";
-    private int ValueA[] = new int[3950];
-    private int ValueB[] = new int[3950];//svarer til 5 sekunder
+    private int ValueA[] = new int[4000];
+    private int ValueB[] = new int[4000];//svarer til 5 sekunder
     private Boolean AorB = true;
 
 
@@ -55,12 +56,12 @@ public class SerialPortClass {
         return null;
     }
 
-    public void filter3950measurements(int[] intArray) {
+    public void filter4000measurements(int[] intArray) {
         String[] stringArray;
-        while (d < 3950) {
+        while (d < 4000) {
             String s = SerialPortClass.getSerialPortOBJ().maaling();
             if (s != null) {
-                setBuffer(getBuffer()+s);
+                setBuffer(getBuffer() + s);
                 int i = getBuffer().indexOf("A");
                 if (i > -1) {
                     stringArray = getBuffer().split("A");
@@ -74,15 +75,13 @@ public class SerialPortClass {
 
                         while (getH() < stringArray.length - 1 && stringArray.length > 1) {
                             if (stringArray[getH()] != null) {
-                                if ((getD() + getH()) >= 3950) {
+                                if ((getD() + getH()) >= 4000) {
                                     break;
                                 }
                                 intArray[getD() + getH()] = Integer.parseInt(stringArray[h]);
-                                if (getD() + getH() == 1500) {
-                                    System.out.println("1500");
-                                }
-                                if (getD() + getH() == 3000) {
-                                    System.out.println("3000");
+                                if (getD() + getH() == 1999) {
+                                    //Platform.runLater(()->Algorithm.getAlgorithmOBJ().populateChart2000(intArray));
+                                    System.out.println("Halfway");
                                 }
                             }
                             h++;
@@ -92,19 +91,15 @@ public class SerialPortClass {
                     }
                 }
             }
+            try {
+                Thread.sleep(80);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         setD(0);
 
     }
-
-    public void filterMeasurements() {
-        String rawdata = SerialPortClass.getSerialPortOBJ().maaling();
-        if (rawdata != null) {
-            buffer = buffer + rawdata;
-            System.out.println(buffer);
-        }
-    }
-
 
     public int[] getValueA() {
         return ValueA;
@@ -145,6 +140,17 @@ public class SerialPortClass {
     public void setBuffer(String buffer) {
         this.buffer = buffer;
     }
+
+   /* public static void main(String[] args) {
+        SerialPortOBJ.openPort();
+        SerialPortOBJ.filter4000measurements(SerialPortOBJ.getValueA());
+        int[] array = getSerialPortOBJ().getValueA();
+        for (int i = 0; i < array.length - 1; i++) {
+            System.out.println(array[i]);
+        }
+        getSerialPortOBJ().closePort();
+
+    }*/
 }
 
 

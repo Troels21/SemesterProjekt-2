@@ -5,25 +5,24 @@ import javafx.scene.control.Label;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Threads{
+public class Threads {
     private Label label;
     private LineChart lineChart;
-
     private ExecutorService SqlHandler = Executors.newSingleThreadExecutor();
 
     private Thread MotherloardThread = new Thread(new Runnable() {
         @Override
         public void run() {
-            Platform.runLater(()->Algorithm.getAlgorithmOBJ().setupChart(lineChart));
+            Platform.runLater(() -> Algorithm.getAlgorithmOBJ().setupChart(lineChart));
             SerialPortClass.getSerialPortOBJ().openPort();
             while (ThreadHandler.getShouldMyThreadBeRuning()) {
-                SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().getValueA());
+                SerialPortClass.getSerialPortOBJ().filter4000measurements(SerialPortClass.getSerialPortOBJ().getValueA());
                 System.out.println("Filter A");
                 SerialPortClass.getSerialPortOBJ().setAorB(true);
                 Platform.runLater(platformthread);
                 SqlHandler.execute(sqlThread);
 
-                SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().getValueB());
+                SerialPortClass.getSerialPortOBJ().filter4000measurements(SerialPortClass.getSerialPortOBJ().getValueB());
                 System.out.println("Filter B");
                 SerialPortClass.getSerialPortOBJ().setAorB(false);
                 Platform.runLater(platformthread);
@@ -50,10 +49,10 @@ public class Threads{
     private Thread sqlThread = new Thread(() -> {
         if (SerialPortClass.getSerialPortOBJ().getAorB()) {
             System.out.println("SQl A");
-            SQL.getSqlOBJ().writeTodatabaseArray(SerialPortClass.getSerialPortOBJ().getValueA());
+            SQL.getSqlOBJ().writeToMeasurementArray(SerialPortClass.getSerialPortOBJ().getValueA(), Algorithm.getAlgorithmOBJ().getCPR());
         } else {
             System.out.println("SQl B");
-            SQL.getSqlOBJ().writeTodatabaseArray(SerialPortClass.getSerialPortOBJ().getValueB());
+            SQL.getSqlOBJ().writeToMeasurementArray(SerialPortClass.getSerialPortOBJ().getValueB(),Algorithm.getAlgorithmOBJ().getCPR());
         }
     });
 
