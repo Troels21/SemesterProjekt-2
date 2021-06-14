@@ -6,7 +6,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -27,8 +26,8 @@ public class Algorithm {
 
     public void setupChart(LineChart lineChart) {
         EKGSerie.getData().clear();
-        EKGSerie.setName("ECG");
         lineChart.getData().clear();
+        EKGSerie.setName("ECG");
         lineChart.getData().add(EKGSerie);
     }
 

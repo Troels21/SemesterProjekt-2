@@ -3,6 +3,27 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class SQL extends Main {
+    /*
+    Use semesterprojekt2;
+
+    DROP TABLE EKG;
+    DROP TABLE MeasurementNumber;
+
+    CREATE TABLE MeasurementNumber(
+            MeasurementID INT NOT NULL auto_increment,
+            CPR INT NOT NULL,
+            mearsurementStartedAt TIMESTAMP default current_timestamp,
+            PRIMARY KEY (MeasurementID)
+            );
+
+    CREATE TABLE EKG(
+            Measurement INT NOT NULL auto_increment,
+            EKGValue DOUBLE NOT NULL,
+            MeasurementID INT,
+            PRIMARY KEY(Measurement),
+    FOREIGN KEY (MeasurementID) REFERENCES MeasurementNumber(MeasurementID)
+            );*/
+
     private SQL() {
     }
 
@@ -64,8 +85,6 @@ public class SQL extends Main {
             String findmeasurementIDFromCPR = "SELECT * FROM MeasurementNumber" +
                     " WHERE CPR = " + CPRstring + ";";
             ResultSet rs;
-
-            System.out.println(findmeasurementIDFromCPR);
 
             rs = myStatement.executeQuery(findmeasurementIDFromCPR);
             while (rs.next()) {
@@ -135,7 +154,6 @@ public class SQL extends Main {
             String findmeasurementIDFromDate = "SELECT * FROM MeasurementNumber" +
                     " WHERE mearsurementStartedAt='" + date + "';";
             ResultSet rs;
-            System.out.println(findmeasurementIDFromDate);
 
             rs = myStatement.executeQuery(findmeasurementIDFromDate);
             while (rs.next()) {
@@ -146,6 +164,23 @@ public class SQL extends Main {
                 SQLException throwables) {
             throwables.printStackTrace();
             removeConnectionSQL();
+        }
+    }
+
+    public boolean doesPatientExsist(String CPR) throws SQLException {
+        makeConnectionSQL();
+        String findPatient = "SELECT CPR FROM MeasurementNumber WHERE CPR =" + CPR + ";";
+        ResultSet rs;
+        try {
+            rs = myStatement.executeQuery(findPatient);
+            rs.next();
+            boolean buffer = rs.getBoolean(1);
+            removeConnectionSQL();
+            return buffer;
+
+        } catch (SQLException throwables) {
+            removeConnectionSQL();
+            return false;
         }
     }
 

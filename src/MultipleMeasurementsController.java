@@ -14,6 +14,8 @@ public class MultipleMeasurementsController implements Initializable {
     public void ok() {
         SQL.getSqlOBJ().getIdWhereData(getDateofMeasurements().getText());
         Algorithm.getAlgorithmOBJ().textBox("Patient Found");
+        getDateofMeasurements().getItems().clear();
+        SQL.getSqlOBJ().getNumberOfMeasurementsOnSameCPR().clear();
         Main.closeStage(Main.MultipleMeasurementStage);
     }
 

@@ -14,14 +14,14 @@ public class ThreadHandler {
     }
 
     private Thread RealTimet, SQLUpdatet, SerialPortt;
-    static private Boolean ShouldMyThreadBeRuning;
+    static private Boolean ShouldMyThreadBeRuning = false;
     private LinkedList<Integer> que = new LinkedList<Integer>();
     private Thread produce, consume;
 
-    public void startthreadifclose(Thread thread) {
-        if (thread.isAlive()) {
-        } else {
-            thread.start();
+    public void makeNewThreadIfClosed(Thread thread) {
+        if(!thread.isAlive()){
+            Thread t = new Thread(thread);
+            t.start();
         }
     }
 

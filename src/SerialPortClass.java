@@ -3,7 +3,7 @@ import jssc.SerialPort;
 import jssc.SerialPortException;
 
 public class SerialPortClass {
-    public static String COMPORT = "COM4";
+    private String COMPORT = "COM4";
     private int ValueA[] = new int[4000];
     private int ValueB[] = new int[4000];//svarer til 5 sekunder
     private Boolean AorB = true;
@@ -12,7 +12,7 @@ public class SerialPortClass {
     private int h = 0;
     private String buffer = "";
 
-    private SerialPort sensor = new SerialPort(COMPORT);
+    private SerialPort sensor = new SerialPort(getCOMPORT());
 
     private static SerialPortClass SerialPortOBJ = new SerialPortClass();
 
@@ -77,8 +77,6 @@ public class SerialPortClass {
                                 if ((getD() + getH()) >= 4000) {
                                     break;
                                 }
-
-
                                 try {
                                     int bufferint = Integer.parseInt(stringArray[h]);
                                     intArray[getD() + getH()] = bufferint;
@@ -105,7 +103,6 @@ public class SerialPortClass {
             }
         }
         setD(0);
-
     }
 
     public int[] getValueA() {
@@ -146,6 +143,14 @@ public class SerialPortClass {
 
     public void setBuffer(String buffer) {
         this.buffer = buffer;
+    }
+
+    public String getCOMPORT() {
+        return COMPORT;
+    }
+
+    public void setCOMPORT(String COMPORT) {
+        this.COMPORT = COMPORT;
     }
 }
 

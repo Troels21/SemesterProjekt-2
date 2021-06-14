@@ -38,7 +38,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ControllerDatabaseLogin">
+<VBox prefHeight="286.0" prefWidth="325.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ControllerDatabaseLogin">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="290.0" prefWidth="321.0" VBox.vgrow="ALWAYS">
       <children>
@@ -51,6 +51,9 @@
             <TextField fx:id="DatabasePassword" layoutX="117.0" layoutY="181.0" />
             <TextField fx:id="DatabaseURL" layoutX="172.0" layoutY="1.0" prefHeight="25.0" prefWidth="168.0" text="jdbc:mysql://localhost:3306/" />
             <Button layoutX="282.0" layoutY="240.0" mnemonicParsing="false" onAction="#okButton" text="OK" />
+            <TextField fx:id="DatabaseCOMPORT" layoutX="1.0" layoutY="1.0" prefHeight="17.0" prefWidth="82.0" text="COM4" />
+            <Label layoutX="17.0" layoutY="26.0" text="PortNavn" />
+            <Label layoutX="228.0" layoutY="26.0" text="DataBase Port" />
       </children>
     </AnchorPane>
   </children>

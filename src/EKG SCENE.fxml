@@ -74,7 +74,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <LineChart fx:id="SavedDataLineChart" createSymbols="false" layoutX="4.0" layoutY="89.0" prefHeight="282.0" prefWidth="632.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="89.0">
+                              <LineChart fx:id="SavedDataLineChart" animated="false" createSymbols="false" layoutX="4.0" layoutY="89.0" prefHeight="282.0" prefWidth="632.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="89.0">
                                 <xAxis>
                                   <NumberAxis side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" />
                                 </xAxis>

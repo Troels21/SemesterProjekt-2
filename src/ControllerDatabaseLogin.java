@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 public class ControllerDatabaseLogin extends Main {
     @FXML
+    private TextField DatabaseCOMPORT;
+    @FXML
     private TextField DatabaseName;
     @FXML
     private TextField DatabaseUsername;
@@ -18,15 +20,13 @@ public class ControllerDatabaseLogin extends Main {
         SQL.getSqlOBJ().setUrl(getDatabaseURL().getText() + getDatabaseName().getText());
         SQL.getSqlOBJ().setUser(getDatabaseUsername().getText());
         SQL.getSqlOBJ().setPassword(getDatabasePassword().getText());
+        SerialPortClass.getSerialPortOBJ().setCOMPORT(getDatabaseCOMPORT().getText());
         try {
             SQL.getSqlOBJ().makeConnectionSQL();
             openStage(EKGStage, "EKG SCENE", "EKG", 650, 400);
         } catch (SQLException | IOException throwables) {
             Algorithm.getAlgorithmOBJ().textBox("Acces Denied");
         }
-
-
-
     }
 
     public TextField getDatabaseName() {
@@ -42,5 +42,13 @@ public class ControllerDatabaseLogin extends Main {
 
     public TextField getDatabaseURL() {
         return DatabaseURL;
+    }
+
+    public TextField getDatabaseCOMPORT() {
+        return DatabaseCOMPORT;
+    }
+
+    public void setDatabaseCOMPORT(TextField COMPORT) {
+        this.DatabaseCOMPORT = COMPORT;
     }
 }

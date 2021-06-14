@@ -1,4 +1,3 @@
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Label;
@@ -21,7 +20,7 @@ public class ControllerEKG extends Threads {
     private TextField CPRid2;
     @FXML
     private TextField CPRid1;
-    static private volatile int dataPicked=0;
+    static private volatile int dataPicked = 0;
 
     public void tabChanged() {
         ThreadHandler.setShouldMyThreadBeRuning(false);
@@ -30,16 +29,17 @@ public class ControllerEKG extends Threads {
     }
 
     public void startRealTimeEKG() {
-        if (Algorithm.getAlgorithmOBJ().checkCPR(Algorithm.getAlgorithmOBJ().getCPR())) {
-            //Der er ret mange metodekald ? kommentarer pls :D
-            SQL.getSqlOBJ().makePatientMeasurement(Algorithm.getAlgorithmOBJ().getCPR());
-
-            setLabel(getBPMID());
-            setLineChart(getRealTimeLineChart());
-            ThreadHandler.setShouldMyThreadBeRuning(true);
-            ThreadHandler.getThreadHandlerOBJ().startthreadifclose(getMotherloardThread());
-        } else {
-            Algorithm.getAlgorithmOBJ().textBox("Syntax Error in :CPR:");
+        if (!ThreadHandler.getShouldMyThreadBeRuning()) {
+            if (Algorithm.getAlgorithmOBJ().checkCPR(Algorithm.getAlgorithmOBJ().getCPR())) {
+                //Der er ret mange metodekald ? kommentarer pls :D
+                SQL.getSqlOBJ().makePatientMeasurement(Algorithm.getAlgorithmOBJ().getCPR());
+                setLabel(getBPMID());
+                setLineChart(getRealTimeLineChart());
+                ThreadHandler.setShouldMyThreadBeRuning(true);
+                ThreadHandler.getThreadHandlerOBJ().makeNewThreadIfClosed(getMotherloardThread());
+            } else {
+                Algorithm.getAlgorithmOBJ().textBox("Syntax Error in :CPR:   Try pressing Enter");
+            }
         }
     }
 
@@ -49,10 +49,23 @@ public class ControllerEKG extends Threads {
 
     public void findData() throws IOException {
         try {
-            SQL.getSqlOBJ().FindMeasureIDWhereCPRRead(Algorithm.getAlgorithmOBJ().getCPR());
+            if (SQL.getSqlOBJ().doesPatientExsist(Algorithm.getAlgorithmOBJ().getCPR())) {
+                if (Algorithm.getAlgorithmOBJ().checkCPR(Algorithm.getAlgorithmOBJ().getCPR())) {
+                    try {
+                        SQL.getSqlOBJ().FindMeasureIDWhereCPRRead(Algorithm.getAlgorithmOBJ().getCPR());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                } else {
+                    Algorithm.getAlgorithmOBJ().textBox("Syntax Error    try pressing Enter");
+                }
+            } else {
+                Algorithm.getAlgorithmOBJ().textBox("Patient does not exist");
+            }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            Algorithm.getAlgorithmOBJ().textBox("Patient does not exist");
         }
+
     }
 
     public void showData() {
