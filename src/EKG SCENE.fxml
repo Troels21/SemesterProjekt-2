@@ -32,7 +32,6 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
@@ -43,7 +42,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ControllerEKG">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -75,9 +74,9 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <LineChart fx:id="SavedDataLineChart" layoutX="4.0" layoutY="89.0" prefHeight="282.0" prefWidth="632.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="89.0">
+                              <LineChart fx:id="SavedDataLineChart" createSymbols="false" layoutX="4.0" layoutY="89.0" prefHeight="282.0" prefWidth="632.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="89.0">
                                 <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
+                                  <NumberAxis side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" />
                                 </xAxis>
                                 <yAxis>
                                   <NumberAxis side="LEFT" />
@@ -86,6 +85,7 @@
                               <Button layoutX="36.0" layoutY="34.0" mnemonicParsing="false" onAction="#findData" text="Find Data" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="34.0" />
                               <Label layoutX="292.0" layoutY="6.0" text="Saved EGK" />
                               <TextField fx:id="CPRid2" layoutX="116.0" layoutY="34.0" onAction="#onEnter2" promptText="CPR" AnchorPane.leftAnchor="116.0" AnchorPane.topAnchor="34.0" />
+                              <Button layoutX="417.0" layoutY="34.0" mnemonicParsing="false" onAction="#showData" text="Show Data" />
                            </children>
                         </AnchorPane>
                   </content>

@@ -3,17 +3,16 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Algorithm {
-    private int timer = 0;
     private double BPM;
-    private String CPR;
+    private String CPR = "";
 
     private static Algorithm AlgorithmOBJ = new Algorithm();
 
@@ -37,32 +36,15 @@ public class Algorithm {
         EKGSerie.getData().clear();
         for (int i = 0; i < (array.length - 1); i++) {
             EKGSerie.getData().add(new XYChart.Data(i, array[i]));
-            setTimer((getTimer() + 1));
         }
-    }/*
+    }
 
-    public void populateChart2000(int array[]) {
-        if (counter == 1) {
-            for (int i = 1999; i < (3999); i++) {
-                EKGSerie.getData().add(new XYChart.Data(i, array[i]));
-                setTimer((getTimer() + 1));
-                counter++;
-            }
+    public void populateChartArraylist(ArrayList arraylist) {
+        EKGSerie.getData().clear();
+        for (int i = 0; i < arraylist.size() - 1; i++) {
+            EKGSerie.getData().add(new XYChart.Data(i, arraylist.get(i)));
         }
-        if (counter == 0) {
-            for (int i = 0; i < (1999); i++) {
-                EKGSerie.getData().add(new XYChart.Data(i, array[i]));
-                setTimer((getTimer() + 1));
-                counter++;
-            }
-        }
-        if (counter == 2) {
-            counter = 0;
-            setTimer(0);
-            EKGSerie.getData().clear();
-        }
-    }*/
-
+    }
 
     public void BPMalgo(int array[], Label bpmid) {
         double counter = 0;
@@ -109,15 +91,6 @@ public class Algorithm {
         allertStage.initModality(Modality.APPLICATION_MODAL);
         allertStage.show();
     }
-
-    public int getTimer() {
-        return timer;
-    }
-
-    public void setTimer(int timer) {
-        this.timer = timer;
-    }
-
 
     public double getBPM() {
         return BPM;

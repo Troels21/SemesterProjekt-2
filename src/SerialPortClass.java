@@ -8,7 +8,6 @@ public class SerialPortClass {
     private int ValueB[] = new int[4000];//svarer til 5 sekunder
     private Boolean AorB = true;
 
-
     private int d = 0;
     private int h = 0;
     private String buffer = "";
@@ -78,13 +77,21 @@ public class SerialPortClass {
                                 if ((getD() + getH()) >= 4000) {
                                     break;
                                 }
-                                intArray[getD() + getH()] = Integer.parseInt(stringArray[h]);
+
+
+                                try {
+                                    int bufferint = Integer.parseInt(stringArray[h]);
+                                    intArray[getD() + getH()] = bufferint;
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Numberformat exception");
+                                    intArray[getD() + getH()] = 0;
+                                }
+
                                 if (getD() + getH() == 1999) {
-                                    //Platform.runLater(()->Algorithm.getAlgorithmOBJ().populateChart2000(intArray));
                                     System.out.println("Halfway");
                                 }
                             }
-                            h++;
+                            setH(getH() + 1);
                         }
                         setD(getD() + getH());
                         setH(0);
@@ -140,17 +147,6 @@ public class SerialPortClass {
     public void setBuffer(String buffer) {
         this.buffer = buffer;
     }
-
-   /* public static void main(String[] args) {
-        SerialPortOBJ.openPort();
-        SerialPortOBJ.filter4000measurements(SerialPortOBJ.getValueA());
-        int[] array = getSerialPortOBJ().getValueA();
-        for (int i = 0; i < array.length - 1; i++) {
-            System.out.println(array[i]);
-        }
-        getSerialPortOBJ().closePort();
-
-    }*/
 }
 
 

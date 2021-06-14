@@ -47,62 +47,15 @@ public class Threads {
     });
 
     private Thread sqlThread = new Thread(() -> {
+        SQL.getSqlOBJ().findMeasurementID(Algorithm.getAlgorithmOBJ().getCPR());
         if (SerialPortClass.getSerialPortOBJ().getAorB()) {
             System.out.println("SQl A");
-            SQL.getSqlOBJ().writeToMeasurementArray(SerialPortClass.getSerialPortOBJ().getValueA(), Algorithm.getAlgorithmOBJ().getCPR());
+            SQL.getSqlOBJ().writeToMeasurementArray(SerialPortClass.getSerialPortOBJ().getValueA());
         } else {
             System.out.println("SQl B");
-            SQL.getSqlOBJ().writeToMeasurementArray(SerialPortClass.getSerialPortOBJ().getValueB(),Algorithm.getAlgorithmOBJ().getCPR());
+            SQL.getSqlOBJ().writeToMeasurementArray(SerialPortClass.getSerialPortOBJ().getValueB());
         }
     });
-
-
-/*
-    Thread t1 = new Thread(() -> {
-        synchronized (obj) {
-            while (ThreadHandler.getShouldMyThreadBeRuning()) {
-                try {
-                    obj.wait();
-                    SQL.getSqlOBJ().writeTodatabaseArray(SerialPortClass.getSerialPortOBJ().getValueA());
-                    obj.wait();
-                    SQL.getSqlOBJ().writeTodatabaseArray(SerialPortClass.getSerialPortOBJ().getValueB());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    });
-
-
-    Thread t2 = new Thread(() -> {
-        synchronized (obj) {
-            while (ThreadHandler.getShouldMyThreadBeRuning()) {
-                try {
-                    obj.wait();
-                    Algorithm.getAlgorithmOBJ().populateChart(SerialPortClass.getSerialPortOBJ().getValueA());
-                    obj.wait();
-                    Algorithm.getAlgorithmOBJ().populateChart(SerialPortClass.getSerialPortOBJ().getValueB());
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    });
-
-    Thread t3 = new Thread(() -> {
-        synchronized (obj) {
-            SerialPortClass.getSerialPortOBJ().openPort();
-            while (ThreadHandler.getShouldMyThreadBeRuning()) {
-                SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().ValueA);
-                obj.notifyAll();
-                SerialPortClass.getSerialPortOBJ().filter3950measurements(SerialPortClass.getSerialPortOBJ().ValueB);
-                obj.notifyAll();
-                //generelt - undgå at accesse -DIREKTE fra klassernes attributter og felter . brug get og set metoder
-            }
-            SerialPortClass.getSerialPortOBJ().closePort();
-        }
-    });*/
 
     public ExecutorService getSqlHandler() {
         return SqlHandler;

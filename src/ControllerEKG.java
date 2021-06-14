@@ -1,10 +1,16 @@
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class Controller extends Threads {
+import java.io.IOException;
+import java.sql.SQLException;
 
+public class ControllerEKG extends Threads {
+
+    @FXML
+    private Label MeasurementID;
     @FXML
     private LineChart RealTimeLineChart;
     @FXML
@@ -15,7 +21,7 @@ public class Controller extends Threads {
     private TextField CPRid2;
     @FXML
     private TextField CPRid1;
-
+    static private volatile int dataPicked=0;
 
     public void tabChanged() {
         ThreadHandler.setShouldMyThreadBeRuning(false);
@@ -25,7 +31,9 @@ public class Controller extends Threads {
 
     public void startRealTimeEKG() {
         if (Algorithm.getAlgorithmOBJ().checkCPR(Algorithm.getAlgorithmOBJ().getCPR())) {
+            //Der er ret mange metodekald ? kommentarer pls :D
             SQL.getSqlOBJ().makePatientMeasurement(Algorithm.getAlgorithmOBJ().getCPR());
+
             setLabel(getBPMID());
             setLineChart(getRealTimeLineChart());
             ThreadHandler.setShouldMyThreadBeRuning(true);
@@ -39,7 +47,18 @@ public class Controller extends Threads {
         ThreadHandler.setShouldMyThreadBeRuning(false);
     }
 
-    public void findData() {
+    public void findData() throws IOException {
+        try {
+            SQL.getSqlOBJ().FindMeasureIDWhereCPRRead(Algorithm.getAlgorithmOBJ().getCPR());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void showData() {
+        SQL.getSqlOBJ().readToDataArray();
+        Algorithm.getAlgorithmOBJ().setupChart(getSavedDataLineChart());
+        Algorithm.getAlgorithmOBJ().populateChartArraylist(SQL.getSqlOBJ().getDataArray());
     }
 
     public void onEnter1() {

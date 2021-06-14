@@ -13,64 +13,14 @@ public class ThreadHandler {
         return ThreadHandlerOBJ;
     }
 
-
-
-
-    LineChart lineChart;
-    Label label;
-
     private Thread RealTimet, SQLUpdatet, SerialPortt;
     static private Boolean ShouldMyThreadBeRuning;
     private LinkedList<Integer> que = new LinkedList<Integer>();
     private Thread produce, consume;
 
-
-
-
-    public void makeThread() {
-        setShouldMyThreadBeRuning(true);
-
-        /*RealTimeThread RealTimeThreadOBJ= new RealTimeThread(linechart);
-        SQLupdateThread sqlThreadOBJ= new SQLupdateThread();
-        RealTimet = new Thread(RealTimeThreadOBJ);
-        SQLUpdatet = new Thread(sqlThreadOBJ);
-        SerialPortThread SerialPortThreadOBJ = new SerialPortThread();
-        SerialPortt = new Thread(SerialPortThreadOBJ);*/
-        /*
-        Threads threads = new Threads();
-        SerialPortt = threads.t3;
-        RealTimet =threads.t2;
-        SQLUpdatet = threads.t1;*/
-
-
-        produce = new Thread(new ProducerThread(que));
-        consume = new Thread(new ConsumerThread(que));
-
-
-    }
-
-    public void threadStart() {
-        //getSerialPortt().start();
-        //consume.setPriority(Thread.MAX_PRIORITY);
-        //produce.setPriority(Thread.NORM_PRIORITY);
-        produce.start();
-        consume.start();
-    }
-/*
-    public void threadJoin(){
-        try {
-            getProduce().join();
-            getConsume().join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }*/
-
     public void startthreadifclose(Thread thread) {
         if (thread.isAlive()) {
-        }
-        else {
+        } else {
             thread.start();
         }
     }
