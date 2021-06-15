@@ -11,14 +11,16 @@ public class MultipleMeasurementsController implements Initializable {
     @FXML
     private SplitMenuButton DateofMeasurements;
 
+    //Metode der gemmer den Date, og finder det measurementID hvor date passer og fjerner resterende data og lukker sig selv
     public void ok() {
-        SQL.getSqlOBJ().getIdWhereData(getDateofMeasurements().getText());
+        SQL.getSqlOBJ().getIdWhereDate(getDateofMeasurements().getText());
         Algorithm.getAlgorithmOBJ().textBox("Patient Found");
         getDateofMeasurements().getItems().clear();
         SQL.getSqlOBJ().getNumberOfMeasurementsOnSameCPR().clear();
         Main.closeStage(Main.MultipleMeasurementStage);
     }
 
+    //Danner MenuItems for alle date's , når Controlleren Initialiseres
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         for (int i =0;i<=SQL.getSqlOBJ().getNumberOfMeasurementsOnSameCPR().size()-1;i++){
@@ -29,7 +31,7 @@ public class MultipleMeasurementsController implements Initializable {
             getDateofMeasurements().getItems().add(name);
         }
     }
-
+    //Getter
     public SplitMenuButton getDateofMeasurements() {
         return DateofMeasurements;
     }

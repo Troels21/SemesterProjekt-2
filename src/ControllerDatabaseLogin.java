@@ -5,8 +5,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class ControllerDatabaseLogin extends Main {
+    //Attributter til databaseLogin, og valg af COMPORT
     @FXML
-    private TextField DatabaseCOMPORT;
+    private TextField COMPORT;
     @FXML
     private TextField DatabaseName;
     @FXML
@@ -16,11 +17,12 @@ public class ControllerDatabaseLogin extends Main {
     @FXML
     private TextField DatabaseURL;
 
+    //Metode der gemmer de indtastede data, åbner EKG SCENE og tjekker om login passede
     public void okButton() {
         SQL.getSqlOBJ().setUrl(getDatabaseURL().getText() + getDatabaseName().getText());
         SQL.getSqlOBJ().setUser(getDatabaseUsername().getText());
         SQL.getSqlOBJ().setPassword(getDatabasePassword().getText());
-        SerialPortClass.getSerialPortOBJ().setCOMPORT(getDatabaseCOMPORT().getText());
+        SerialPortClass.getSerialPortOBJ().setCOMPORT(getCOMPORT().getText());
         try {
             SQL.getSqlOBJ().makeConnectionSQL();
             openStage(EKGStage, "EKG SCENE", "EKG", 650, 400);
@@ -29,6 +31,7 @@ public class ControllerDatabaseLogin extends Main {
         }
     }
 
+    //Getters and Setters
     public TextField getDatabaseName() {
         return DatabaseName;
     }
@@ -44,11 +47,11 @@ public class ControllerDatabaseLogin extends Main {
         return DatabaseURL;
     }
 
-    public TextField getDatabaseCOMPORT() {
-        return DatabaseCOMPORT;
+    public TextField getCOMPORT() {
+        return COMPORT;
     }
 
-    public void setDatabaseCOMPORT(TextField COMPORT) {
-        this.DatabaseCOMPORT = COMPORT;
+    public void setCOMPORT(TextField COMPORT) {
+        this.COMPORT = COMPORT;
     }
 }

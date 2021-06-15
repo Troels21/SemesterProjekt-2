@@ -9,8 +9,6 @@ import java.sql.SQLException;
 public class ControllerEKG extends Threads {
 
     @FXML
-    private Label MeasurementID;
-    @FXML
     private LineChart RealTimeLineChart;
     @FXML
     private LineChart SavedDataLineChart;
@@ -20,25 +18,25 @@ public class ControllerEKG extends Threads {
     private TextField CPRid2;
     @FXML
     private TextField CPRid1;
-    static private volatile int dataPicked = 0;
 
+    //Metode der slukker den kørende tråd efter aktuelle måling, og overfører CPR mellem scener
     public void tabChanged() {
         ThreadHandler.setShouldMyThreadBeRuning(false);
         setCPRid1(Algorithm.getAlgorithmOBJ().getCPR());
         setCPRid2(Algorithm.getAlgorithmOBJ().getCPR());
     }
 
+
     public void startRealTimeEKG() {
-        if (!ThreadHandler.getShouldMyThreadBeRuning()) {
-            if (Algorithm.getAlgorithmOBJ().checkCPR(Algorithm.getAlgorithmOBJ().getCPR())) {
-                //Der er ret mange metodekald ? kommentarer pls :D
-                SQL.getSqlOBJ().makePatientMeasurement(Algorithm.getAlgorithmOBJ().getCPR());
-                setLabel(getBPMID());
-                setLineChart(getRealTimeLineChart());
+        if (!ThreadHandler.getShouldMyThreadBeRuning()) { //Hvis trådene kører må de ikke kunne startes igen
+            if (Algorithm.getAlgorithmOBJ().checkCPR(Algorithm.getAlgorithmOBJ().getCPR())) { //CPRCheck
+                SQL.getSqlOBJ().makePatientMeasurement(Algorithm.getAlgorithmOBJ().getCPR()); // Laver Patient
+                setLabel(getBPMID()); //Overfører Label fra FXML til tråd klassen
+                setLineChart(getRealTimeLineChart()); //Overfører Linechart fra FXML til tråd klassen
                 ThreadHandler.setShouldMyThreadBeRuning(true);
-                ThreadHandler.getThreadHandlerOBJ().makeNewThreadIfClosed(getMotherloardThread());
+                ThreadHandler.getThreadHandlerOBJ().makeNewThreadIfClosed(getMotherloardThread()); //Laver en ny tråd af motherloadThread og starter den
             } else {
-                Algorithm.getAlgorithmOBJ().textBox("Syntax Error in :CPR:   Try pressing Enter");
+                Algorithm.getAlgorithmOBJ().textBox("Syntax Error in :CPR:   Try pressing Enter"); //Fejl boks
             }
         }
     }
@@ -49,31 +47,32 @@ public class ControllerEKG extends Threads {
 
     public void findData() throws IOException {
         try {
-            if (SQL.getSqlOBJ().doesPatientExsist(Algorithm.getAlgorithmOBJ().getCPR())) {
-                if (Algorithm.getAlgorithmOBJ().checkCPR(Algorithm.getAlgorithmOBJ().getCPR())) {
+            if (SQL.getSqlOBJ().doesPatientExsist(Algorithm.getAlgorithmOBJ().getCPR())) { //Checker om patienten eksistere
+                if (Algorithm.getAlgorithmOBJ().checkCPR(Algorithm.getAlgorithmOBJ().getCPR())) { //CPR Check
                     try {
-                        SQL.getSqlOBJ().FindMeasureIDWhereCPRRead(Algorithm.getAlgorithmOBJ().getCPR());
+                        SQL.getSqlOBJ().FindMeasureIDWhereCPRRead(Algorithm.getAlgorithmOBJ().getCPR()); //Finder Measurement hvor CPR er
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
                 } else {
-                    Algorithm.getAlgorithmOBJ().textBox("Syntax Error    try pressing Enter");
+                    Algorithm.getAlgorithmOBJ().textBox("Syntax Error    try pressing Enter"); //Fejl boks
                 }
             } else {
-                Algorithm.getAlgorithmOBJ().textBox("Patient does not exist");
+                Algorithm.getAlgorithmOBJ().textBox("Patient does not exist"); //Fejl boks
             }
         } catch (SQLException throwables) {
-            Algorithm.getAlgorithmOBJ().textBox("Patient does not exist");
+            Algorithm.getAlgorithmOBJ().textBox("Patient does not exist"); //Fejl boks
         }
 
     }
 
     public void showData() {
-        SQL.getSqlOBJ().readToDataArray();
-        Algorithm.getAlgorithmOBJ().setupChart(getSavedDataLineChart());
-        Algorithm.getAlgorithmOBJ().populateChartArraylist(SQL.getSqlOBJ().getDataArray());
+        SQL.getSqlOBJ().readToDataArray();  //Læser til dataarray
+        Algorithm.getAlgorithmOBJ().setupChart(getSavedDataLineChart()); //Indstiller Linechart
+        Algorithm.getAlgorithmOBJ().populateChartArraylist(SQL.getSqlOBJ().getDataArray()); //Opdatere Grafen
     }
 
+    //Metoder til at klikke enter på textbokst
     public void onEnter1() {
         Algorithm.getAlgorithmOBJ().setCPR(getCPRid1().getText());
         Algorithm.getAlgorithmOBJ().textBox("CPR saved");
@@ -84,6 +83,7 @@ public class ControllerEKG extends Threads {
         Algorithm.getAlgorithmOBJ().textBox("CPR saved");
     }
 
+    //Getters and Setters
     public TextField getCPRid2() {
         return CPRid2;
     }

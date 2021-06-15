@@ -10,20 +10,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Algorithm {
-    private double BPM;
-    private String CPR = "";
-
+    //Singleton af Algorithme Objekt
     private static Algorithm AlgorithmOBJ = new Algorithm();
-
-    private Algorithm() {
-    }
-
+    private Algorithm() {}
     public static Algorithm getAlgorithmOBJ() {
         return AlgorithmOBJ;
     }
 
+    //Placeholders til at gemme BPM og CPR
+    private double BPM;
+    private String CPR = "";
+
+    //Laver en XYChartSerie
     private XYChart.Series EKGSerie = new XYChart.Series();
 
+    //Opsætning af Linechart, Sletter Gamle Værdier og tilføjer nye
     public void setupChart(LineChart lineChart) {
         EKGSerie.getData().clear();
         lineChart.getData().clear();
@@ -31,6 +32,7 @@ public class Algorithm {
         lineChart.getData().add(EKGSerie);
     }
 
+    //Metode til at udfylde LineChart i intervaller, sletter gamle værdier og tilføjer nye
     public void populateChart(int array[]) {
         EKGSerie.getData().clear();
         for (int i = 0; i < (array.length - 1); i++) {
@@ -38,6 +40,7 @@ public class Algorithm {
         }
     }
 
+    //Metode til at udfylde et LineChart på en gang, sletter gamle værdier og tilføjer nye
     public void populateChartArraylist(ArrayList arraylist) {
         EKGSerie.getData().clear();
         for (int i = 0; i < arraylist.size() - 1; i++) {
@@ -45,6 +48,9 @@ public class Algorithm {
         }
     }
 
+    //Algoritme til at udregne BPM
+    //Registrer et punkt over 70% af max som et puls slag, men sørger for at der skal være gået minimum 220 målinger
+    // mellem registrede pulsslag
     public void BPMalgo(int array[], Label bpmid) {
         double counter = 0;
         int lastPulsePoint = 0;
@@ -55,10 +61,11 @@ public class Algorithm {
                 lastPulsePoint = s;
             }
         }
-        setBPM(counter / 5 * 60);
-        bpmid.setText(String.valueOf((getBPM())));
+        setBPM(counter / 5 * 60);  //Upscaler pulsslag til en estimeret BPM
+        bpmid.setText(String.valueOf((getBPM()))); //Opdaterer værdien af BPM på sin label
     }
 
+    //Metode til at kontrollere om CPR er et 10 cifret tal
     public Boolean checkCPR(String string) {
         if (string != "" && string.length() == 10) {
             try {
@@ -71,6 +78,7 @@ public class Algorithm {
         return false;
     }
 
+    //Imperativ JavaFX programmering, der laver en Popup boks med en string og en OK knap
     public void textBox(String message) {
         Label alertLabel = new Label();
         StackPane allertLayout = new StackPane();
@@ -91,6 +99,7 @@ public class Algorithm {
         allertStage.show();
     }
 
+    //Getters and Setters
     public double getBPM() {
         return BPM;
     }
