@@ -26,7 +26,7 @@ public class SQL extends Main {
 
     //Singleton af SQL Objekt
     private SQL() {}
-    static private SQL sqlOBJ = new SQL();
+    static private final SQL sqlOBJ = new SQL();
     static public SQL getSqlOBJ() {
         return sqlOBJ;
     }
@@ -41,8 +41,8 @@ public class SQL extends Main {
     //Int til at gemme hvilken primary key measurementID var
     private int measurementID;
     //Arraylist der gemmes værdier på
-    private ArrayList<String> DateOfmeasurementonsameCPER = new ArrayList<>();
-    private ArrayList<Integer> dataArray = new ArrayList<>();
+    private final ArrayList<String> DateOfmeasurementonsameCPER = new ArrayList<>();
+    private final ArrayList<Integer> dataArray = new ArrayList<>();
 
     //Metode der opretter connection til SQL Database
     public void makeConnectionSQL() throws SQLException {

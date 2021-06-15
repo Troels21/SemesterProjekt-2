@@ -104,23 +104,12 @@ public class ControllerEKG extends Threads {
         return RealTimeLineChart;
     }
 
-    public void setRealTimeLineChart(LineChart realTimeLineChart) {
-        RealTimeLineChart = realTimeLineChart;
-    }
-
     public LineChart getSavedDataLineChart() {
         return SavedDataLineChart;
-    }
-
-    public void setSavedDataLineChart(LineChart savedDataLineChart) {
-        SavedDataLineChart = savedDataLineChart;
     }
 
     public Label getBPMID() {
         return BPMID;
     }
 
-    public void setBPMID(Label BPMID) {
-        this.BPMID = BPMID;
-    }
 }

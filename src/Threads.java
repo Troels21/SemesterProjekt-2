@@ -11,10 +11,10 @@ public class Threads {
     private LineChart lineChart;
 
     //Executorservice, for at undgå at oprette flere tråde end nødvendigt.
-    private ExecutorService SqlHandler = Executors.newSingleThreadExecutor();
+    private final ExecutorService SqlHandler = Executors.newSingleThreadExecutor();
 
     //Den store tråd der kører alle målinger i programmet
-    private Thread MotherloardThread = new Thread(new Runnable() {
+    private final Thread MotherloardThread = new Thread(new Runnable() {
         @Override
         public void run() {
             Platform.runLater(() -> Algorithm.getAlgorithmOBJ().setupChart(lineChart)); //Opsætter LineChart
@@ -24,7 +24,7 @@ public class Threads {
                 System.out.println("Filter A");
                 SerialPortClass.getSerialPortOBJ().setAorB(true); //flipper Boolean
                 Platform.runLater(platformthread); //Får JavaFX til at køre denne tråd når den kan
-                SqlHandler.execute(sqlThread); //Får Executorservice til at køre denne runnable som en task
+                getSqlHandler().execute(sqlThread); //Får Executorservice til at køre denne runnable som en task
 
 
                 //Her gentager overordnede igen, bare med en flippet boolean, og et nyt array
@@ -32,13 +32,13 @@ public class Threads {
                 System.out.println("Filter B");
                 SerialPortClass.getSerialPortOBJ().setAorB(false);
                 Platform.runLater(platformthread);
-                SqlHandler.execute(sqlThread);
+                getSqlHandler().execute(sqlThread);
             }
             SerialPortClass.getSerialPortOBJ().closePort(); //slukkerPort
         }
     });
 
-    private Thread platformthread = new Thread(() -> {
+    private final Thread platformthread = new Thread(() -> {
         if (SerialPortClass.getSerialPortOBJ().getAorB()) {
             Algorithm.getAlgorithmOBJ().populateChart(SerialPortClass.getSerialPortOBJ().getValueA()); //Udfylder LineChart
             Algorithm.getAlgorithmOBJ().BPMalgo(SerialPortClass.getSerialPortOBJ().getValueA(), label); //Skifter BPM
@@ -50,7 +50,7 @@ public class Threads {
         }
     });
 
-    private Thread sqlThread = new Thread(() -> {
+    private final Thread sqlThread = new Thread(() -> {
         SQL.getSqlOBJ().findMeasurementID(Algorithm.getAlgorithmOBJ().getCPR()); //Henter CPR
         if (SerialPortClass.getSerialPortOBJ().getAorB()) {
             System.out.println("SQl A");
@@ -66,28 +66,12 @@ public class Threads {
         return SqlHandler;
     }
 
-    public void setSqlHandler(ExecutorService sqlHandler) {
-        SqlHandler = sqlHandler;
-    }
-
     public Thread getMotherloardThread() {
         return MotherloardThread;
     }
 
-    public void setMotherloardThread(Thread motherloardThread) {
-        MotherloardThread = motherloardThread;
-    }
-
-    public Label getLabel() {
-        return label;
-    }
-
     public void setLabel(Label label) {
         this.label = label;
-    }
-
-    public LineChart getLineChart() {
-        return lineChart;
     }
 
     public void setLineChart(LineChart lineChart) {

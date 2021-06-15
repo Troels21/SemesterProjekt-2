@@ -36,7 +36,8 @@ public class ControllerDatabaseLogin extends Main {
         return DatabaseName;
     }
 
-    public TextField getDatabaseUsername() {return DatabaseUsername;
+    public TextField getDatabaseUsername() {
+        return DatabaseUsername;
     }
 
     public TextField getDatabasePassword() {
@@ -49,9 +50,5 @@ public class ControllerDatabaseLogin extends Main {
 
     public TextField getCOMPORT() {
         return COMPORT;
-    }
-
-    public void setCOMPORT(TextField COMPORT) {
-        this.COMPORT = COMPORT;
     }
 }

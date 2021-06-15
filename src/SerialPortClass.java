@@ -1,11 +1,10 @@
-import javafx.application.Platform;
 import jssc.SerialPort;
 import jssc.SerialPortException;
 
 public class SerialPortClass {
     private String COMPORT = "COM4";  //COMPORT
-    private int ValueA[] = new int[4000];
-    private int ValueB[] = new int[4000];//svarer til 5 sekunder
+    private int[] ValueA = new int[4000];
+    private int[] ValueB = new int[4000];//svarer til 5 sekunder
     private Boolean AorB = true;  //Boolean der kontrollere hvilket scenarie vi skal printe til linechart og SQL
 
     //Counters og buffere der bruges til filtering
@@ -14,7 +13,7 @@ public class SerialPortClass {
     private String buffer = "";
 
     //Singleton SensorObjekt
-    private SerialPort sensor = new SerialPort(getCOMPORT());
+    private final SerialPort sensor = new SerialPort(getCOMPORT());
     private static SerialPortClass SerialPortOBJ = new SerialPortClass();
     private SerialPortClass() {}
     public static SerialPortClass getSerialPortOBJ() {

@@ -1,11 +1,6 @@
-import javafx.scene.chart.LineChart;
-import javafx.scene.control.Label;
-
-import java.util.LinkedList;
-
 public class ThreadHandler {
     //singleton af ThreadHandler OBJ
-    private static ThreadHandler ThreadHandlerOBJ = new ThreadHandler();
+    private static final ThreadHandler ThreadHandlerOBJ = new ThreadHandler();
     private ThreadHandler() {}
     public static ThreadHandler getThreadHandlerOBJ() {
         return ThreadHandlerOBJ;

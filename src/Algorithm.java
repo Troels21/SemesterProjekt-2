@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class Algorithm {
     //Singleton af Algorithme Objekt
-    private static Algorithm AlgorithmOBJ = new Algorithm();
+    private static final Algorithm AlgorithmOBJ = new Algorithm();
     private Algorithm() {}
     public static Algorithm getAlgorithmOBJ() {
         return AlgorithmOBJ;
@@ -22,7 +22,7 @@ public class Algorithm {
     private String CPR = "";
 
     //Laver en XYChartSerie
-    private XYChart.Series EKGSerie = new XYChart.Series();
+    private final XYChart.Series EKGSerie = new XYChart.Series();
 
     //Opsætning af Linechart, Sletter Gamle Værdier og tilføjer nye
     public void setupChart(LineChart lineChart) {
@@ -33,7 +33,7 @@ public class Algorithm {
     }
 
     //Metode til at udfylde LineChart i intervaller, sletter gamle værdier og tilføjer nye
-    public void populateChart(int array[]) {
+    public void populateChart(int[] array) {
         EKGSerie.getData().clear();
         for (int i = 0; i < (array.length - 1); i++) {
             EKGSerie.getData().add(new XYChart.Data(i, array[i]));
@@ -51,7 +51,7 @@ public class Algorithm {
     //Algoritme til at udregne BPM
     //Registrer et punkt over 70% af max som et puls slag, men sørger for at der skal være gået minimum 220 målinger
     // mellem registrede pulsslag
-    public void BPMalgo(int array[], Label bpmid) {
+    public void BPMalgo(int[] array, Label bpmid) {
         double counter = 0;
         int lastPulsePoint = 0;
         int seventyprocent = Arrays.stream(array).max().getAsInt();
@@ -67,7 +67,7 @@ public class Algorithm {
 
     //Metode til at kontrollere om CPR er et 10 cifret tal
     public Boolean checkCPR(String string) {
-        if (string != "" && string.length() == 10) {
+        if (!string.equals("") && string.length() == 10) {
             try {
                 int hello = Integer.parseInt(string);
                 return true;
