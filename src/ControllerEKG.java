@@ -29,6 +29,7 @@ public class ControllerEKG extends Threads {
 
     public void startRealTimeEKG() {
         if (!ThreadHandler.getShouldMyThreadBeRuning()) { //Hvis trådene kører må de ikke kunne startes igen
+            getRealTimeLineChart().getData().clear();// Fjerner alt på linechart
             if (Algorithm.getAlgorithmOBJ().checkCPR(Algorithm.getAlgorithmOBJ().getCPR())) { //CPRCheck
                 SQL.getSqlOBJ().makePatientMeasurement(Algorithm.getAlgorithmOBJ().getCPR()); // Laver Patient
                 setLabel(getBPMID()); //Overfører Label fra FXML til tråd klassen
@@ -67,6 +68,7 @@ public class ControllerEKG extends Threads {
     }
 
     public void showData() {
+        getSavedDataLineChart().getData().clear();
         SQL.getSqlOBJ().readToDataArray();  //Læser til dataarray
         Algorithm.getAlgorithmOBJ().setupChart(getSavedDataLineChart()); //Indstiller Linechart
         Algorithm.getAlgorithmOBJ().populateChartArraylist(SQL.getSqlOBJ().getDataArray()); //Opdatere Grafen

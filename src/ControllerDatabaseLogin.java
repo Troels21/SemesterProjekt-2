@@ -10,8 +10,6 @@ import java.util.ResourceBundle;
 public class ControllerDatabaseLogin extends Main implements Initializable {
     //Attributter til databaseLogin, og valg af COMPORT
     @FXML
-    private TextField COMPORT;
-    @FXML
     private TextField DatabaseName;
     @FXML
     private TextField DatabaseUsername;
@@ -25,7 +23,6 @@ public class ControllerDatabaseLogin extends Main implements Initializable {
         SQL.getSqlOBJ().setUrl(getDatabaseURL().getText() + getDatabaseName().getText());
         SQL.getSqlOBJ().setUser(getDatabaseUsername().getText());
         SQL.getSqlOBJ().setPassword(getDatabasePassword().getText());
-        SerialPortClass.getSerialPortOBJ().setCOMPORTname(getCOMPORT().getText());
         try {
             SQL.getSqlOBJ().makeConnectionSQL(SQL.getSqlOBJ().getUrl(), SQL.getSqlOBJ().getUser(), SQL.getSqlOBJ().getPassword());
             openStage(EKGStage, "EKG SCENE", "EKG", 650, 400);
@@ -51,16 +48,25 @@ public class ControllerDatabaseLogin extends Main implements Initializable {
         return DatabaseURL;
     }
 
-    public void setCOMPORT(String string) {
-        this.COMPORT.setText(string);
+    public void setDatabaseName(String databaseName) {
+        DatabaseName.setText(databaseName);
     }
 
-    public TextField getCOMPORT() {
-        return COMPORT;
+    public void setDatabaseUsername(String databaseUsername) {
+        DatabaseUsername.setText(databaseUsername);
+    }
+
+    public void setDatabasePassword(String databasePassword) {
+        DatabasePassword.setText(databasePassword);
+    }
+
+    public void setDatabaseURL(String  databaseURL) {
+        DatabaseURL.setText(databaseURL);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setCOMPORT(SerialPortClass.getSerialPortOBJ().getCOMPORTname());
+        setDatabaseUsername(SQL.getSqlOBJ().getUser());
+        setDatabasePassword(SQL.getSqlOBJ().getPassword());
     }
 }
