@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class SQL extends Main {
+public class SQL{
 
     //SQL kode til oprettelse af database
     /*
@@ -45,8 +45,8 @@ public class SQL extends Main {
     private final ArrayList<Integer> dataArray = new ArrayList<>();
 
     //Metode der opretter connection til SQL Database
-    public void makeConnectionSQL() throws SQLException {
-        myConn = DriverManager.getConnection(getUrl(), getUser(), getPassword());
+    public void makeConnectionSQL(String url, String user, String password) throws SQLException {
+        myConn = DriverManager.getConnection(getUrl(),getUser(),getPassword());
         myStatement = myConn.createStatement();
     }
 
@@ -62,16 +62,16 @@ public class SQL extends Main {
     }
 
     //Metode der opretter en patient i MeasurementNumber Tabel
-    public void makePatientMeasurement(String string) {
+    public void makePatientMeasurement(String CPR) {
         try {
-            makeConnectionSQL();
+            makeConnectionSQL(getUrl(),getUser(),getPassword());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         try {
             String write_to_measurementNumber = "insert into MeasurementNumber(CPR) values(?);";
             PreparedStatement PP = myConn.prepareStatement(write_to_measurementNumber);
-            PP.setInt(1, Integer.parseInt(string));
+            PP.setInt(1, Integer.parseInt(CPR));
             PP.execute();
             System.out.println("SQL Made patient");
 
@@ -86,7 +86,7 @@ public class SQL extends Main {
     //Metode der finder hvilket MeasurementID, der skal gemmes data via.
     public void findMeasurementID(String CPRstring) {
         try {
-            makeConnectionSQL();
+            makeConnectionSQL(getUrl(),getUser(),getPassword());
             String findmeasurementIDFromCPR = "SELECT * FROM MeasurementNumber" +
                     " WHERE CPR = " + CPRstring + ";";
             ResultSet rs;
@@ -107,7 +107,7 @@ public class SQL extends Main {
     public void FindMeasureIDWhereCPRRead(String CPRstring) throws IOException, SQLException {
         int counter = 0;
         int counter2 = 0;
-        makeConnectionSQL();
+        makeConnectionSQL(getUrl(),getUser(),getPassword());
         String findmeasurementIDFromCPR2 = "SELECT * FROM MeasurementNumber" +
                 " WHERE CPR = " + CPRstring + ";";
 
@@ -121,23 +121,21 @@ public class SQL extends Main {
         if (counter > 1) {
             while (rs2.next()) {
                 setNumberOfMeasurementsOnSameCPR(rs2.getString(3), counter2);  //fylder String arraylist ud med date timestamp
-                counter2++;
-            }
-            openStage(MultipleMeasurementStage, "Multiple Measurements", "MultipleMeasurements", 220, 180);
+                counter2++;            }
+            Main.openStage(Main.MultipleMeasurementStage, "Multiple Measurements", "MultipleMeasurements", 220, 180);
         } else {
             rs2 = myStatement.executeQuery(findmeasurementIDFromCPR2);
             rs2.next();
             setMeasurementID(rs2.getInt(1));
             Algorithm.getAlgorithmOBJ().textBox("Patient Found");
         }
-        removeConnectionSQL();
-    }
+        removeConnectionSQL();  }
 
     //Indlæser data fra database til DataArray via, et sat measurementID
     public void readToDataArray() {
         try {
             int counter = 0;
-            makeConnectionSQL();
+            makeConnectionSQL(getUrl(),getUser(),getPassword());
             String ReadDatatoarray = "SELECT * FROM EKG" +
                     " WHERE MeasurementID=" + measurementID + ";";
             ResultSet rs;
@@ -159,7 +157,7 @@ public class SQL extends Main {
     //Finder MeasurementID hvor date er en specifik date
     public void getIdWhereDate(String date) {
         try {
-            makeConnectionSQL();
+            makeConnectionSQL(getUrl(),getUser(),getPassword());
             String findmeasurementIDFromDate = "SELECT * FROM MeasurementNumber" +
                     " WHERE mearsurementStartedAt='" + date + "';";
             ResultSet rs;
@@ -178,7 +176,7 @@ public class SQL extends Main {
 
     //Metode der returnere true hvis, der findes et resultset, og false hvis ikke
     public boolean doesPatientExsist(String CPR) throws SQLException {
-        makeConnectionSQL();
+        makeConnectionSQL(getUrl(),getUser(),getPassword());
         String findPatient = "SELECT CPR FROM MeasurementNumber WHERE CPR =" + CPR + ";";
         ResultSet rs;
         try {
@@ -197,7 +195,7 @@ public class SQL extends Main {
     //Metode der skriver data til databasen, af 25 datapunkter per query.
     public void writeToMeasurementArray(int[] array) {
         try {
-            makeConnectionSQL();
+            makeConnectionSQL(getUrl(),getUser(),getPassword());
             for (int i = 0; i < array.length - 1; i += 25) {
                 String write_to_measurement = "insert into EKG(EKGValue, MeasurementId) values" +
                         "(?," + getMeasurementID() + ")" +

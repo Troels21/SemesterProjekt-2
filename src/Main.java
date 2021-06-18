@@ -3,9 +3,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import jssc.SerialPort;
+
 import java.io.IOException;
 
 public class Main extends Application {
+    //VM options --module-path "C:\Users\Troel\SemesterProjekt 2\SDK\javafx-sdk-16\lib" --add-modules javafx.controls,javafx.fxml
     Stage EKGStage = new Stage();
     static Stage MultipleMeasurementStage = new Stage();
 
@@ -22,8 +25,8 @@ public class Main extends Application {
         stage.show();
     }
 
-    public void openStage(Stage stage,String name,String title,int height, int width) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(name+".fxml"));
+    public static void openStage(Stage stage, String name, String title, int height, int width) throws IOException {
+        Parent root = FXMLLoader.load(Main.class.getResource(name+".fxml"));
         stage.setTitle(title);
         stage.setScene(new Scene(root, height, width));
         stage.show();

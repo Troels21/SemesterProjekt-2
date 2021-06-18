@@ -2,7 +2,7 @@ import jssc.SerialPort;
 import jssc.SerialPortException;
 
 public class SerialPortClass {
-    private String COMPORT = "COM4";  //COMPORT
+    private String COMPORTname = "COM4";  //COMPORT
     private int[] ValueA = new int[4000];
     private int[] ValueB = new int[4000];//svarer til 5 sekunder
     private Boolean AorB = true;  //Boolean der kontrollere hvilket scenarie vi skal printe til linechart og SQL
@@ -12,8 +12,12 @@ public class SerialPortClass {
     private int h = 0;
     private String buffer = "";
 
+    public SerialPort getSensor() {
+        return sensor;
+    }
+
     //Singleton SensorObjekt
-    private final SerialPort sensor = new SerialPort(getCOMPORT());
+    private final SerialPort sensor = new SerialPort(getCOMPORTname());
     private static SerialPortClass SerialPortOBJ = new SerialPortClass();
     private SerialPortClass() {}
     public static SerialPortClass getSerialPortOBJ() {
@@ -28,7 +32,7 @@ public class SerialPortClass {
             sensor.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
             sensor.purgePort(SerialPort.PURGE_TXCLEAR | SerialPort.PURGE_RXCLEAR);
         } catch (SerialPortException ex) {
-            System.out.println("FEJL SERIALPORTEXCEPTION");
+            System.out.print("FEJL SERIALPORTEXCEPTION\n");
         }
     }
 
@@ -36,7 +40,7 @@ public class SerialPortClass {
         try {
             sensor.closePort();
         } catch (SerialPortException e) {
-            e.printStackTrace();
+            System.out.print("FEJL SERIALPORTEXCEPTION\n");
         }
     }
 
@@ -66,7 +70,8 @@ public class SerialPortClass {
                     stringArray = getBuffer().split("A"); //Hvis A eksisterede splitter vi ved A
                     if (stringArray != null && stringArray.length > 0) { //Kontrol om at der blev splittet
                         if (getBuffer().charAt(getBuffer().length() - 1) != 65) { //Kontrol om at målingen sluttede på A
-                            setBuffer(stringArray[stringArray.length - 1]); //Når måling ikke sluttede på A, har vi en halv værdi på sidste plads, denne gemmes nu i buffer.
+                            setBuffer(stringArray[stringArray.length - 1]); //Når måling ikke sluttede på A, har vi en
+                            // halv værdi på sidste plads, denne gemmes nu i buffer.
                             stringArray[stringArray.length - 1] = null; //Sletter sidste måling i array, da den er en halv måling
                         } else {
                             setBuffer("");//Hvis den sidste måling sluttede på A, vil den blive efterfulgt af en ny måling, derfor tømmes buffer
@@ -147,12 +152,12 @@ public class SerialPortClass {
         this.buffer = buffer;
     }
 
-    public String getCOMPORT() {
-        return COMPORT;
+    public String getCOMPORTname() {
+        return COMPORTname;
     }
 
-    public void setCOMPORT(String COMPORT) {
-        this.COMPORT = COMPORT;
+    public void setCOMPORTname(String COMPORTname) {
+        this.COMPORTname = COMPORTname;
     }
 }
 

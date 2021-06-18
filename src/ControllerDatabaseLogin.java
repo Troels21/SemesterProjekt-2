@@ -1,10 +1,13 @@
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class ControllerDatabaseLogin extends Main {
+public class ControllerDatabaseLogin extends Main implements Initializable {
     //Attributter til databaseLogin, og valg af COMPORT
     @FXML
     private TextField COMPORT;
@@ -22,9 +25,9 @@ public class ControllerDatabaseLogin extends Main {
         SQL.getSqlOBJ().setUrl(getDatabaseURL().getText() + getDatabaseName().getText());
         SQL.getSqlOBJ().setUser(getDatabaseUsername().getText());
         SQL.getSqlOBJ().setPassword(getDatabasePassword().getText());
-        SerialPortClass.getSerialPortOBJ().setCOMPORT(getCOMPORT().getText());
+        SerialPortClass.getSerialPortOBJ().setCOMPORTname(getCOMPORT().getText());
         try {
-            SQL.getSqlOBJ().makeConnectionSQL();
+            SQL.getSqlOBJ().makeConnectionSQL(SQL.getSqlOBJ().getUrl(), SQL.getSqlOBJ().getUser(), SQL.getSqlOBJ().getPassword());
             openStage(EKGStage, "EKG SCENE", "EKG", 650, 400);
         } catch (SQLException | IOException throwables) {
             Algorithm.getAlgorithmOBJ().textBox("Acces Denied");
@@ -48,7 +51,16 @@ public class ControllerDatabaseLogin extends Main {
         return DatabaseURL;
     }
 
+    public void setCOMPORT(String string) {
+        this.COMPORT.setText(string);
+    }
+
     public TextField getCOMPORT() {
         return COMPORT;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setCOMPORT(SerialPortClass.getSerialPortOBJ().getCOMPORTname());
     }
 }
