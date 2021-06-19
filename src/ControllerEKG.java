@@ -30,6 +30,7 @@ public class ControllerEKG extends Threads {
     public void startRealTimeEKG() {
         if (!ThreadHandler.getShouldMyThreadBeRuning()) { //Hvis trådene kører må de ikke kunne startes igen
             getRealTimeLineChart().getData().clear();// Fjerner alt på linechart
+            Algorithm.getAlgorithmOBJ().setCPR(getCPRid1().getText());
             if (Algorithm.getAlgorithmOBJ().checkCPR(Algorithm.getAlgorithmOBJ().getCPR())) { //CPRCheck
                 SQL.getSqlOBJ().makePatientMeasurement(Algorithm.getAlgorithmOBJ().getCPR()); // Laver Patient
                 setLabel(getBPMID()); //Overfører Label fra FXML til tråd klassen
@@ -47,6 +48,7 @@ public class ControllerEKG extends Threads {
     }
 
     public void findData() throws IOException {
+        Algorithm.getAlgorithmOBJ().setCPR(getCPRid2().getText());
         try {
             if (SQL.getSqlOBJ().doesPatientExsist(Algorithm.getAlgorithmOBJ().getCPR())) { //Checker om patienten eksistere
                 if (Algorithm.getAlgorithmOBJ().checkCPR(Algorithm.getAlgorithmOBJ().getCPR())) { //CPR Check
@@ -72,17 +74,6 @@ public class ControllerEKG extends Threads {
         SQL.getSqlOBJ().readToDataArray();  //Læser til dataarray
         Algorithm.getAlgorithmOBJ().setupChart(getSavedDataLineChart()); //Indstiller Linechart
         Algorithm.getAlgorithmOBJ().populateChartArraylist(SQL.getSqlOBJ().getDataArray()); //Opdatere Grafen
-    }
-
-    //Metoder til at klikke enter på textbokst
-    public void onEnter1() {
-        Algorithm.getAlgorithmOBJ().setCPR(getCPRid1().getText());
-        Algorithm.getAlgorithmOBJ().textBox("CPR saved");
-    }
-
-    public void onEnter2() {
-        Algorithm.getAlgorithmOBJ().setCPR(getCPRid2().getText());
-        Algorithm.getAlgorithmOBJ().textBox("CPR saved");
     }
 
     //Getters and Setters

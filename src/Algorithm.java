@@ -108,7 +108,6 @@ public class Algorithm {
         this.BPM = BPM;
     }
 
-
     public String getCPR() {
         return CPR;
     }
