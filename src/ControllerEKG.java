@@ -22,6 +22,8 @@ public class ControllerEKG extends Threads {
     //Metode der slukker den kørende tråd efter aktuelle måling, og overfører CPR mellem scener
     public void tabChanged() {
         ThreadHandler.setShouldMyThreadBeRuning(false);
+        getRealTimeLineChart().getData().clear();
+        getSavedDataLineChart().getData().clear();
         setCPRid1(Algorithm.getAlgorithmOBJ().getCPR());
         setCPRid2(Algorithm.getAlgorithmOBJ().getCPR());
     }
