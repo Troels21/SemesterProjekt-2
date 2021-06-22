@@ -105,7 +105,7 @@ public class SerialPortClass {
                 }
             }
             try {  //Hvis der er blevet registret et null, venter vi indtil vores Serialport cache er fyldt lidt mere
-                Thread.sleep(80); //Her sker ventet
+                Thread.sleep(100); //Her sker ventet
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
