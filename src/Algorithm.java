@@ -67,9 +67,9 @@ public class Algorithm {
 
     //Metode til at kontrollere om CPR er et 10 cifret tal
     public Boolean checkCPR(String string) {
-        if (!string.equals("") && string.length() == 10) {
+        if (!string.equals("") && string.length() == 10 && string.matches("[0-9]+")) {
             try {
-                int hello = Integer.parseInt(string);
+                //int hello = Integer.parseInt(string);
                 return true;
             } catch (NumberFormatException e) {
                 return false;

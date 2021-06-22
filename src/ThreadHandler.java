@@ -17,6 +17,13 @@ public class ThreadHandler {
         }
     }
 
+    public void closeThreadifalive(Thread thread){
+        if(thread.isAlive()){
+            thread.interrupt();
+            SerialPortClass.getSerialPortOBJ().closePort();
+        }
+    }
+
     //Getters and Setters
     public static Boolean getShouldMyThreadBeRuning() {
         return ShouldMyThreadBeRuning;

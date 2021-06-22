@@ -4,6 +4,7 @@
 SPISettings settings(8000000, MSBFIRST, SPI_MODE0);
 const long tSampleInMicros = 1250; 
 int value;
+int i=1000;
 
 void setup() {
   SPI.begin();

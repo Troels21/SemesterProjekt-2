@@ -1,6 +1,7 @@
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,6 +27,8 @@ public class ControllerDatabaseLogin extends Main implements Initializable {
         try {
             SQL.getSqlOBJ().makeConnectionSQL(SQL.getSqlOBJ().getUrl(), SQL.getSqlOBJ().getUser(), SQL.getSqlOBJ().getPassword());
             openStage(EKGStage, "EKG SCENE", "EKG", 650, 400);
+            Stage stage = (Stage) DatabaseName.getScene().getWindow();
+            stage.close();
         } catch (SQLException | IOException throwables) {
             Algorithm.getAlgorithmOBJ().textBox("Acces Denied");
         }

@@ -65,6 +65,7 @@ public class SerialPortClass {
             String s = SerialPortClass.getSerialPortOBJ().maaling();
             if (s != null) {  //Ser bort fra null værdierne
                 setBuffer(getBuffer() + s);
+
                 int i = getBuffer().indexOf("A"); //får hvilken plads A er på
                 if (i > -1) {//Og kontrollere om A eksisterede i målingen
                     stringArray = getBuffer().split("A"); //Hvis A eksisterede splitter vi ved A
@@ -74,7 +75,8 @@ public class SerialPortClass {
                             // halv værdi på sidste plads, denne gemmes nu i buffer.
                             stringArray[stringArray.length - 1] = null; //Sletter sidste måling i array, da den er en halv måling
                         } else {
-                            setBuffer("");//Hvis den sidste måling sluttede på A, vil den blive efterfulgt af en ny måling, derfor tømmes buffer
+                            setBuffer("");
+                            //Hvis den sidste måling sluttede på A, vil den blive efterfulgt af en ny måling, derfor tømmes buffer
                         }
 
                         //Løkke der parser vores buffer array til vores måling array

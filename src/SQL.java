@@ -11,7 +11,7 @@ public class SQL{
 
     CREATE TABLE MeasurementNumber(
             MeasurementID INT NOT NULL auto_increment,
-            CPR INT NOT NULL,
+            CPR VARCHAR(10) NOT NULL,
             mearsurementStartedAt TIMESTAMP default current_timestamp,
             PRIMARY KEY (MeasurementID)
             );
@@ -71,7 +71,7 @@ public class SQL{
         try {
             String write_to_measurementNumber = "insert into MeasurementNumber(CPR) values(?);";
             PreparedStatement PP = myConn.prepareStatement(write_to_measurementNumber);
-            PP.setInt(1, Integer.parseInt(CPR));
+            PP.setString(1,(CPR));
             PP.execute();
             System.out.println("SQL Made patient");
 

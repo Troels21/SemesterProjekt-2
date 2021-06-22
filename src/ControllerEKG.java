@@ -21,7 +21,9 @@ public class ControllerEKG extends Threads {
 
     //Metode der slukker den kørende tråd efter aktuelle måling, og overfører CPR mellem scener
     public void tabChanged() {
+        BPMID.setText("");
         ThreadHandler.setShouldMyThreadBeRuning(false);
+        ThreadHandler.getThreadHandlerOBJ().closeThreadifalive(getMotherloardThread());
         getRealTimeLineChart().getData().clear();
         getSavedDataLineChart().getData().clear();
         setCPRid1(Algorithm.getAlgorithmOBJ().getCPR());
@@ -40,7 +42,7 @@ public class ControllerEKG extends Threads {
                 ThreadHandler.setShouldMyThreadBeRuning(true);
                 ThreadHandler.getThreadHandlerOBJ().makeNewThreadIfClosed(getMotherloardThread()); //Laver en ny tråd af motherloadThread og starter den
             } else {
-                Algorithm.getAlgorithmOBJ().textBox("Syntax Error in :CPR:   Try pressing Enter"); //Fejl boks
+                Algorithm.getAlgorithmOBJ().textBox("Syntax Error in :CPR"); //Fejl boks
             }
         }
     }
@@ -60,7 +62,7 @@ public class ControllerEKG extends Threads {
                         throwables.printStackTrace();
                     }
                 } else {
-                    Algorithm.getAlgorithmOBJ().textBox("Syntax Error    try pressing Enter"); //Fejl boks
+                    Algorithm.getAlgorithmOBJ().textBox("Syntax Error"); //Fejl boks
                 }
             } else {
                 Algorithm.getAlgorithmOBJ().textBox("Patient does not exist"); //Fejl boks
